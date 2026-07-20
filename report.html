@@ -105,6 +105,21 @@
   .fwbox .chips{display:flex;gap:6px;flex-wrap:wrap;}
   .fwbox .chips span{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,0.06);color:var(--muted);}
 
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.contact-grid{grid-template-columns:1fr;}}
+  .ccard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+  .ccard .cic{width:44px;height:44px;border-radius:11px;background:rgba(124,92,255,0.14);color:var(--v2);display:grid;place-items:center;flex:none;}
+  .ccard .clbl{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);font-weight:700;}
+  .ccard a,.ccard .cval{display:block;font-size:15px;font-weight:650;color:var(--text);margin-top:4px;word-break:break-word;}
+  .ccard a:hover{color:var(--cyan);}
+  .socrow{display:flex;gap:10px;flex-wrap:wrap;}
+  .socbtn{display:inline-flex;align-items:center;gap:9px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-size:14px;font-weight:650;color:var(--text);transition:border-color .2s,transform .18s var(--ease);}
+  .socbtn:hover{border-color:var(--line-2);transform:translateY(-2px);}
+  .socbtn.off{opacity:0.45;pointer-events:none;}
+  .socbtn.off .tagno{font-size:11px;font-weight:600;color:var(--pink);}
+  .socbtn .sic{display:grid;place-items:center;}
+
   /* KV */
   .kv{display:grid;grid-template-columns:170px 1fr;gap:14px 20px;font-size:14.5px;}
   .kv dt{color:var(--muted);font-weight:600;} .kv dd{margin:0;}
@@ -242,6 +257,7 @@
     <button class="navbtn active" data-tab="summary"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></span> Summary</button>
     <button class="navbtn" data-tab="overview"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5m0 3h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Overview</button>
     <button class="navbtn" data-tab="presence"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Digital presence</button>
+    <button class="navbtn" data-tab="contact"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Contact &amp; socials</button>
     <button class="navbtn" data-tab="strengths"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> What's done well <span class="badge">5</span></button>
     <button class="navbtn" data-tab="gaps"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9l-8 13.9A2 2 0 004 21h16a2 2 0 001.7-3.2l-8-13.9a2 2 0 00-3.4 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Gaps &amp; weaknesses <span class="badge">6</span></button>
 
@@ -321,6 +337,27 @@
           <dt>Social</dt><dd>Official: <b>Facebook + Instagram only.</b> No LinkedIn / YouTube / X. Multiple duplicate pages (followers as low as ~48–290) — brand fragmentation.</dd>
           <dt>SEO footprint</dt><dd>Legacy <b>.php</b> pages + an abandoned <b>wordpress.com</b> blog still live — duplicate content splitting domain authority.</dd>
         </dl>
+      </section>
+
+      <!-- CONTACT & SOCIALS -->
+      <section class="panel" data-tab="contact">
+        <div class="phead"><div class="eye">Their profile</div><h1>Contact &amp; social links</h1><p>How to reach them and where they're present online.</p></div>
+        <div class="contact-grid">
+          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="clbl">Phone</div><a href="tel:+12063126446">+1 (206) 312-6446</a></div></div>
+          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 7l10 6 10-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><div class="clbl">Email</div><a href="mailto:support@1dollardigitizing.com">support@1dollardigitizing.com</a></div></div>
+          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-5-7-11a7 7 0 0114 0c0 6-7 11-7 11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg></span><div><div class="clbl">Address</div><a href="https://www.google.com/maps/search/?api=1&query=46494+Mission+Blvd+Fremont+CA+94539" target="_blank" rel="noopener">46494 Mission Blvd, Fremont, CA 94539</a></div></div>
+          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg></span><div><div class="clbl">Website</div><a href="https://1dollardigitizing.com" target="_blank" rel="noopener">1dollardigitizing.com</a></div></div>
+        </div>
+
+        <div class="prop-h">Social media</div>
+        <div class="socrow">
+          <a class="socbtn" href="https://facebook.com/1dollardigitizing01" target="_blank" rel="noopener"><span class="sic" style="color:#4A9BFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.5c0-.3.2-.5.5-.5z"/></svg></span> Facebook</a>
+          <a class="socbtn" href="https://instagram.com/1dollardigitizing1" target="_blank" rel="noopener"><span class="sic" style="color:#EC4899"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="7" r="1.2" fill="currentColor"/></svg></span> Instagram</a>
+          <span class="socbtn off"><span class="sic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8A1.5 1.5 0 106.5 5a1.5 1.5 0 000 3zM5 10h3v9H5v-9zm5 0h3v1.3c.5-.8 1.5-1.5 3-1.5 2.3 0 3 1.5 3 4V19h-3v-4.6c0-1.1-.4-1.8-1.4-1.8-1 0-1.6.7-1.6 1.8V19h-3v-9z"/></svg></span> LinkedIn <span class="tagno">· not found</span></span>
+          <span class="socbtn off"><span class="sic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3-5 3z"/></svg></span> YouTube <span class="tagno">· not found</span></span>
+          <span class="socbtn off"><span class="sic"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-5 7H3l8-9L3 2h6l4 6 5-6z"/></svg></span> X / Twitter <span class="tagno">· not found</span></span>
+        </div>
+        <p class="disclaimer">Note: multiple duplicate/near-identical Facebook &amp; Instagram pages exist for this brand — a consolidation opportunity (see Opportunities).</p>
       </section>
 
       <!-- STRENGTHS -->
