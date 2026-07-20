@@ -216,21 +216,20 @@
   @media print{
     .sidebar,.topbar,.toast{display:none!important;}
     .app{display:block;}
-    .content{max-width:none;padding:8px 16px;}
-    html,body{background:#fff!important;color:#14141F!important;}
-    .panel{display:block!important;margin-bottom:22px;page-break-inside:auto;}
+    .content{max-width:none;padding:6px 14px;}
+    html,body{background:#fff!important;}
+    .content,.content *{color:#1c1c22!important;-webkit-text-fill-color:#1c1c22!important;background-image:none!important;}
+    .phead .eye{color:#6d28d9!important;-webkit-text-fill-color:#6d28d9!important;}
+    .verdict,.stat,.metric,.fwbox,.ccard,.socbtn,.item,.phase,.prop-intro,.whyus div,.prop-table,.cta,ul.list li,.agentbox{background:#fff!important;border:1px solid #d9d9e0!important;box-shadow:none!important;}
+    .prop-table td{border:1px solid #d9d9e0!important;}
+    .cta::before{display:none!important;}
+    .gauge{background:#e6e6ee!important;} .gauge::before{background:#fff!important;}
+    .panel{display:block!important;margin-bottom:20px;page-break-inside:auto;}
     .phead{page-break-after:avoid;}
-    .phead .eye{color:#7C3AED!important;}
-    h1,h2,h3,h4,.stat .n,.gauge b,.verdict .score b,dd b,ul.list li b,.phase h3,.fwbox b{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important;}
-    p,dt,dd,.l,.sub,.mt p,.metric .mt p,.disclaimer,.prop-note,.detected .u{color:#333!important;}
-    .verdict,.stat,.metric,.fwbox,.item,.phase,.prop-intro,.whyus div,.prop-table,.cta,.detected,ul.list li{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;}
-    .cta::before,.rhead::before{display:none!important;}
-    .item .detail{max-height:none!important;}
-    .item .detail .in{border-top:1px solid #ddd;}
+    .item .detail{max-height:none!important;overflow:visible!important;}
     #proposalGen{display:none!important;} #proposalBody{display:block!important;}
     .sum-grid{grid-template-columns:1fr 1fr!important;}
-    .gauge{background:#eee!important;} .gauge::before{background:#fff!important;} .gauge b{color:#111!important;-webkit-text-fill-color:#111!important;}
-    a{color:#111!important;}
+    .socbtn.off{opacity:1!important;}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
 
@@ -438,7 +437,7 @@
           <div class="cta" style="margin-top:26px;">
             <h3>Let's turn this analysis into a win.</h3>
             <p>Send this proposal to 1DollarDigitizing, or book a discovery call with VV Tech Sol.</p>
-            <div class="row"><a class="btn btn-grad" href="mailto:hello@vvtechsol.com?subject=1DollarDigitizing%20-%20VV%20Tech%20Sol%20proposal&amp;body=Hi%20team%2C%20here%20is%20the%20proposal%20from%20VV%20Tech%20Sol...">Email this proposal →</a><button class="btn btn-ghost" type="button" onclick="window.print()">Export PDF</button></div>
+            <div class="row"><button class="btn btn-grad" type="button" onclick="downloadProposal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="margin-right:2px"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download proposal (Word)</button><button class="btn btn-ghost" type="button" onclick="window.print()">Export PDF</button></div>
           </div>
         </div>
       </section>
@@ -464,6 +463,24 @@
     if(proposalDone) return; proposalDone=true;
     var gen=document.getElementById('proposalGen'), body=document.getElementById('proposalBody');
     setTimeout(function(){ if(gen) gen.style.display='none'; if(body) body.style.display='block'; }, 1300);
+  }
+  function downloadProposal(){
+    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Proposal - 1DollarDigitizing</title></head>'+
+    '<body style="font-family:Calibri,Arial,sans-serif;color:#1a1a1a;font-size:11pt;">'+
+    '<h1 style="color:#6d28d9;margin-bottom:0;">Proposal for 1DollarDigitizing</h1>'+
+    '<p style="color:#666;margin-top:4px;">Prepared by <b>VV Tech Sol</b> &middot; 20 Jul 2026</p>'+
+    '<p>You have a strong product &mdash; transparent $1 pricing, fast turnaround and a modern Laravel backend. The opportunity is that this speed advantage runs on a manual, fragmented digital operation. VV Tech Sol proposes a phased program that converts it into recurring revenue and predictable organic growth &mdash; built on your existing platform, not a costly rebuild.</p>'+
+    '<h2 style="color:#4c1d95;">Recommended roadmap</h2>'+
+    '<h3>Phase 1 &mdash; Foundation &amp; quick wins (2&ndash;3 weeks)</h3><ul><li>SEO cleanup &mdash; redirect legacy .php pages, remove the stray WordPress blog, fix 404 routing.</li><li>Automated instant-quote &amp; upload system with stitch-count price estimator.</li></ul><p><i>Outcome: recover lost rankings and capture rush buyers 24/7.</i></p>'+
+    '<h3>Phase 2 &mdash; Retention engine (4&ndash;6 weeks)</h3><ul><li>Customer order portal &mdash; history, 1-click re-order, live status, invoices.</li><li>AI chatbot + live chat with WhatsApp &amp; lead capture.</li></ul><p><i>Outcome: turn one-off jobs into sticky recurring orders.</i></p>'+
+    '<h3>Phase 3 &mdash; Growth &amp; brand (ongoing retainer)</h3><ul><li>CRM + email automation (re-order reminders, win-backs, reviews).</li><li>Social consolidation + management, LinkedIn &amp; YouTube.</li><li>Content/blog engine + Trustpilot/Google reputation.</li><li>Paid ads (Google &amp; Meta) + UX/conversion refresh.</li></ul><p><i>Outcome: predictable lead flow and real third-party credibility.</i></p>'+
+    '<h2 style="color:#4c1d95;">Why VV Tech Sol</h2><ul><li>Full-stack web &amp; custom software &mdash; we build the portal &amp; quote engine on your existing Laravel base, no rebuild.</li><li>AI automation &amp; chatbots &mdash; instant quotes, 24/7 support and lead capture.</li><li>SEO, content &amp; paid growth &mdash; recover rankings and drive high-intent traffic.</li><li>Design + social under one roof &mdash; one partner, one consistent brand.</li></ul>'+
+    '<h2 style="color:#4c1d95;">Indicative investment</h2><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><tr><td>Phase 1 &mdash; Foundation &amp; quick wins</td><td align="right"><b>from $1,200</b></td></tr><tr><td>Phase 2 &mdash; Retention engine (portal + AI chat)</td><td align="right"><b>from $3,500</b></td></tr><tr><td>Phase 3 &mdash; Growth retainer</td><td align="right"><b>from $800 / mo</b></td></tr></table><p style="color:#777;font-size:9pt;">Indicative ranges &mdash; final scope &amp; quote confirmed after a short discovery call.</p>'+
+    '<hr><p><b>VV Tech Sol</b> &middot; hello@vvtechsol.com &middot; vvtechsol.com</p></body></html>';
+    var blob=new Blob(['﻿',html],{type:'application/msword'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='1DollarDigitizing-Proposal.doc';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    if(typeof toast==='function') toast('✓ Proposal downloaded (Word)');
   }
   navbtns.forEach(function(b){ b.addEventListener('click', function(){ showTab(b.dataset.tab, b.textContent.replace(/\d+$/,'').trim()); }); });
 
