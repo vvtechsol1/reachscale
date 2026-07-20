@@ -278,11 +278,16 @@
 
   // ---- FETCH via CORS proxies ----
   function fetchHTML(url){
-    var proxies=[ 'https://api.allorigins.win/raw?url='+encodeURIComponent(url), 'https://corsproxy.io/?url='+encodeURIComponent(url), 'https://thingproxy.freeboard.io/fetch/'+url ];
+    var attempts=[
+      { u:'https://r.jina.ai/'+url, o:{ headers:{ 'X-Return-Format':'html' } } },
+      { u:'https://api.allorigins.win/raw?url='+encodeURIComponent(url) },
+      { u:'https://corsproxy.io/?url='+encodeURIComponent(url) }
+    ];
     var i=0;
     function tryNext(){
-      if(i>=proxies.length) return Promise.resolve(null);
-      return fetch(proxies[i++]).then(function(r){ return r.ok?r.text():null; }).then(function(t){ return (t&&t.length>200)?t:tryNext(); }).catch(function(){ return tryNext(); });
+      if(i>=attempts.length) return Promise.resolve(null);
+      var a=attempts[i++];
+      return fetch(a.u, a.o||{}).then(function(r){ return r.ok?r.text():null; }).then(function(t){ return (t&&t.length>200)?t:tryNext(); }).catch(function(){ return tryNext(); });
     }
     return tryNext();
   }
