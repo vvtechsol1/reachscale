@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>ReachScale Report</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root{
     --bg:#08080F;--bg-2:#0D0D18;--panel:#14141F;--panel-2:#191926;
@@ -197,9 +196,26 @@
     .navbtn.active::before{display:none;} .navbtn .badge{display:none;}
     .content{padding:24px 16px 50px;} .topbar{padding:12px 16px;} .stats{grid-template-columns:1fr 1fr;}
   }
-  body.exporting .panel{display:block!important;}
-  body.exporting .item .detail{max-height:none!important;overflow:visible!important;}
-  body.exporting #proposalGen{display:none!important;} body.exporting #proposalBody{display:block!important;}
+  /* PRINT / EXPORT PDF — full report, forced LIGHT so nothing is ever invisible */
+  @media print{
+    .sidebar,.topbar,.toast,.load,.menutoggle,.scrim{display:none!important;}
+    .app{display:block;}
+    .content{max-width:none;padding:6px 14px;}
+    html,body{background:#fff!important;}
+    .content,.content *{color:#1c1c22!important;-webkit-text-fill-color:#1c1c22!important;background-image:none!important;}
+    .phead .eye{color:#6d28d9!important;-webkit-text-fill-color:#6d28d9!important;}
+    .verdict,.stat,.metric,.fwbox,.ccard,.socbtn,.item,.phase,.prop-intro,.whyus div,.prop-table,.cta,ul.list li,.genbox,.hitem{background:#fff!important;border:1px solid #d9d9e0!important;box-shadow:none!important;}
+    .cta::before{display:none!important;}
+    .gauge{background:#e6e6ee!important;} .gauge::before{background:#fff!important;}
+    .panel{display:block!important;margin-bottom:20px;page-break-inside:auto;}
+    .phead{page-break-after:avoid;}
+    .item .detail{max-height:none!important;overflow:visible!important;}
+    #proposalGen{display:none!important;} #proposalBody{display:block!important;}
+    .sum-grid{grid-template-columns:1fr 1fr!important;}
+    .socbtn.off{opacity:1!important;}
+    .sb-target .fav img,.hitem .hic,.hitem .hgo{display:none!important;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
   :focus-visible{outline:2px solid var(--v);outline-offset:2px;border-radius:6px;}
 </style>
 
@@ -543,10 +559,11 @@
 
   // ---- EXPORT PDF ----
   function exportPDF(){
-    if(typeof html2pdf==='undefined'){ window.print(); return; }
-    document.body.classList.add('exporting'); toast('Generating PDF…');
-    var opt={margin:[6,6,8,6],filename:(A.data?A.data.domain:'reachscale')+'-report.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,backgroundColor:'#0B0B14',useCORS:true},pagebreak:{mode:['css','legacy']},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
-    html2pdf().set(opt).from(document.querySelector('.content')).save().then(function(){document.body.classList.remove('exporting');toast('✓ PDF downloaded');}).catch(function(){document.body.classList.remove('exporting');window.print();});
+    var pb=document.getElementById('proposalBody');
+    var need = !pb || !pb.innerHTML.trim();
+    if(need) genProposal();               // make sure proposal content is filled for the PDF
+    toast('Opening print — choose "Save as PDF"');
+    setTimeout(function(){ window.print(); }, need?1500:200);
   }
 
   // ---- SHARE + TOAST ----
