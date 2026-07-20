@@ -232,8 +232,6 @@
         </div>
       </div>
 
-      <div class="history" id="history"></div>
-
       <!-- ANALYSIS RUN -->
       <div class="panel-run" id="panelRun">
         <div class="agentbox">
@@ -375,7 +373,6 @@
   function run(){
     var val = (input.value||'').trim();
     if(!val){ input.focus(); return; }
-    saveHistory(val, current.k);
     timers.forEach(clearTimeout); timers = [];
     runTarget.textContent = val;
     runSpin.style.display='';
@@ -394,40 +391,14 @@
       runSpin.style.display='none';
       runTitle.innerHTML = 'Report ready for <b>'+val+'</b> — opening…';
       var cta = document.getElementById('reportCta');
-      if(cta){ cta.style.display='block'; }
+      if(cta){ cta.style.display='block'; var a=cta.querySelector('a'); if(a) a.href='report.html?url='+encodeURIComponent(val); }
     }, STEP_LABELS.length*1400 + 400));
     timers.push(setTimeout(function(){
-      window.location.href = 'report.html';
+      window.location.href = 'report.html?url='+encodeURIComponent(val);
     }, STEP_LABELS.length*1400 + 1600));
   }
   document.getElementById('analyzeBtn').addEventListener('click', run);
   input.addEventListener('keydown', function(e){ if(e.key==='Enter') run(); });
 
-  // SEARCH HISTORY
-  var HKEY='reachscale_history';
-  function loadHistory(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'[]'); }catch(e){ return []; } }
-  function saveHistory(url, src){
-    var h=loadHistory().filter(function(x){ return x.url!==url; });
-    h.unshift({url:url, src:src||'web', t:Date.now()});
-    h=h.slice(0,6);
-    try{ localStorage.setItem(HKEY, JSON.stringify(h)); }catch(e){}
-    renderHistory();
-  }
-  function timeAgo(t){ var s=Math.floor((Date.now()-t)/1000); if(s<60)return'just now'; var m=Math.floor(s/60); if(m<60)return m+'m ago'; var hh=Math.floor(m/60); if(hh<24)return hh+'h ago'; return Math.floor(hh/24)+'d ago'; }
-  function renderHistory(){
-    var el=document.getElementById('history'); if(!el) return;
-    var h=loadHistory();
-    if(!h.length){ el.innerHTML=''; return; }
-    var items=h.map(function(x){
-      var cls=(SOURCES.find(function(s){return s.k===x.src;})||{cls:'ic-web'}).cls;
-      var ic=ICONS[x.src]||ICONS.web;
-      return '<div class="hitem" role="button" tabindex="0"><span class="hic '+cls+'">'+ic+'</span><span class="hu">'+x.url+'</span><span class="ht">'+timeAgo(x.t)+'</span>'+
-        '<a class="hdl" href="report.html" title="Open report &amp; download" onclick="event.stopPropagation()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>';
-    }).join('');
-    el.innerHTML='<h4>Recent searches <button class="clr" id="clrHist" type="button">Clear</button></h4>'+items;
-    el.querySelectorAll('.hitem').forEach(function(it){ it.addEventListener('click', function(){ window.location.href='report.html'; }); });
-    var clr=document.getElementById('clrHist'); if(clr){ clr.addEventListener('click', function(e){ e.stopPropagation(); localStorage.removeItem(HKEY); renderHistory(); }); }
-  }
-  renderHistory();
 </script>
 </html>

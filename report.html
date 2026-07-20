@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>ReachScale Report — 1dollardigitizing.com</title>
+<title>ReachScale Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --bg:#08080F; --bg-2:#0D0D18; --panel:#14141F; --panel-2:#191926;
-    --line:rgba(255,255,255,0.09); --line-2:rgba(255,255,255,0.14);
-    --text:#ECECF4; --muted:#9A9AB4; --dim:#6C6C83;
-    --v:#7C5CFF; --v2:#A855F7; --cyan:#22D3EE; --pink:#EC4899; --green:#34D399; --amber:#F59E0B;
+  :root{
+    --bg:#08080F;--bg-2:#0D0D18;--panel:#14141F;--panel-2:#191926;
+    --line:rgba(255,255,255,0.09);--line-2:rgba(255,255,255,0.14);
+    --text:#ECECF4;--muted:#9A9AB4;--dim:#6C6C83;
+    --v:#7C5CFF;--v2:#A855F7;--cyan:#22D3EE;--pink:#EC4899;--green:#34D399;--amber:#F59E0B;
     --grad:linear-gradient(100deg,#7C5CFF 0%,#A855F7 45%,#22D3EE 100%);
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Arial,sans-serif;
     --mono:ui-monospace,"Cascadia Code","Source Code Pro",Menlo,Consolas,monospace;
-    --ease:cubic-bezier(0.16,1,0.3,1); --sbw:264px;
+    --ease:cubic-bezier(0.16,1,0.3,1);--sbw:264px;
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
-  h1,h2,h3{margin:0;line-height:1.2;letter-spacing:-0.02em;}
+  h1,h2,h3,h4{margin:0;line-height:1.2;letter-spacing:-0.02em;}
   .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer;border:1px solid transparent;transition:transform .18s var(--ease),box-shadow .22s,border-color .2s;}
   .btn-grad{background:var(--grad);color:#0A0A12;box-shadow:0 12px 30px -12px rgba(124,92,255,0.55);}
@@ -27,33 +28,31 @@
   .btn-ghost{background:rgba(255,255,255,0.04);color:var(--text);border-color:var(--line-2);}
   .btn-ghost:hover{border-color:var(--v);}
 
-  /* LAYOUT */
   .app{display:grid;grid-template-columns:var(--sbw) 1fr;min-height:100vh;}
-
-  /* SIDEBAR */
   .sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg-2);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:6px;}
   .sb-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-0.02em;padding:4px 8px 16px;}
   .sb-brand .mark{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;flex:none;}
   .sb-target{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:14px;}
   .sb-target .row{display:flex;align-items:center;gap:9px;}
-  .sb-target .fav{width:32px;height:32px;border-radius:8px;background:var(--panel-2);display:grid;place-items:center;color:var(--cyan);flex:none;}
-  .sb-target b{font-size:14px;font-weight:750;display:block;}
+  .sb-target .fav{width:32px;height:32px;border-radius:8px;background:var(--panel-2);display:grid;place-items:center;color:var(--cyan);flex:none;overflow:hidden;}
+  .sb-target .fav img{width:100%;height:100%;object-fit:contain;background:#fff;padding:3px;border-radius:6px;}
+  .sb-target b{font-size:14px;font-weight:750;display:block;word-break:break-word;}
   .sb-target .u{font-family:var(--mono);font-size:11px;color:var(--cyan);word-break:break-all;}
   .sb-target .scorebar{display:flex;align-items:center;gap:8px;margin-top:11px;}
   .sb-target .scorebar .track{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden;}
-  .sb-target .scorebar .fill{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--amber),var(--green));}
-  .sb-target .scorebar .val{font-size:12px;font-weight:800;color:var(--text);}
+  .sb-target .scorebar .fill{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--green));transition:width .6s var(--ease);}
+  .sb-target .scorebar .val{font-size:12px;font-weight:800;}
   .sb-nav{display:contents;}
   .sb-grouplabel{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);font-weight:700;padding:14px 10px 6px;}
   .navbtn{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:10px;text-align:left;transition:background .18s,color .18s;position:relative;}
   .navbtn .ic{width:18px;height:18px;flex:none;display:grid;place-items:center;}
   .navbtn .badge{margin-left:auto;font-size:11px;font-weight:800;padding:1px 8px;border-radius:99px;background:rgba(255,255,255,0.07);color:var(--muted);}
+  .navbtn .badge.badge-ai{background:var(--grad);color:#0A0A12;}
   .navbtn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
   .navbtn.active{background:rgba(124,92,255,0.14);color:#fff;}
   .navbtn.active::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--grad);}
   .sb-foot{margin-top:auto;padding-top:16px;}
 
-  /* MAIN */
   .main{min-width:0;}
   .topbar{position:sticky;top:0;z-index:10;background:rgba(8,8,15,0.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 30px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .topbar .crumb{font-size:13.5px;color:var(--muted);}
@@ -68,9 +67,11 @@
   .phead h1{font-size:clamp(24px,3.4vw,32px);font-weight:850;margin-top:8px;}
   .phead p{color:var(--muted);margin-top:8px;font-size:15px;}
 
-  /* SUMMARY */
+  .sum-grid{display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start;}
+  .sum-side{display:grid;gap:14px;}
+  @media(max-width:980px){.sum-grid{grid-template-columns:1fr;}}
   .verdict{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:22px;display:flex;gap:18px;align-items:center;margin-bottom:22px;}
-  .verdict .score{flex:none;width:80px;height:80px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--amber) 0turn 0.62turn,rgba(255,255,255,0.08) 0.62turn 1turn);position:relative;}
+  .verdict .score{flex:none;width:80px;height:80px;border-radius:50%;display:grid;place-items:center;position:relative;}
   .verdict .score::before{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--panel);}
   .verdict .score b{position:relative;font-size:24px;font-weight:850;}
   .verdict h3{font-size:17px;font-weight:750;margin-bottom:4px;}
@@ -80,18 +81,6 @@
   .stat .n{font-size:20px;font-weight:850;letter-spacing:-0.02em;}
   .stat .l{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35;}
   @media(max-width:640px){.stats{grid-template-columns:1fr 1fr;}}
-
-  /* SUMMARY 2-COL + METRIC BOXES */
-  .sum-grid{display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start;}
-  .sum-side{display:grid;gap:14px;}
-  @media(max-width:980px){.sum-grid{grid-template-columns:1fr;}}
-  .detected{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;}
-  .detected .lbl{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;}
-  .detected .logowrap{background:#fff;border-radius:10px;height:70px;display:grid;place-items:center;padding:8px;margin:10px 0 12px;}
-  .detected .logo{max-height:100%;max-width:100%;object-fit:contain;}
-  .detected .lfallback{font-weight:850;font-size:24px;color:#111;}
-  .detected b{display:block;font-size:15px;}
-  .detected .u{font-family:var(--mono);font-size:11px;color:var(--cyan);margin-top:2px;}
   .metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:15px;align-items:center;}
   .gauge{flex:none;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,0.08) 0);}
   .gauge::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--panel);}
@@ -101,32 +90,14 @@
   .fwbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;}
   .fwbox .fwic{width:46px;height:46px;border-radius:11px;background:rgba(236,72,153,0.14);color:var(--pink);display:grid;place-items:center;flex:none;}
   .fwbox .lbl{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;}
-  .fwbox b{font-size:20px;font-weight:850;display:block;margin:2px 0 7px;}
+  .fwbox b{font-size:19px;font-weight:850;display:block;margin:2px 0 7px;}
   .fwbox .chips{display:flex;gap:6px;flex-wrap:wrap;}
   .fwbox .chips span{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,0.06);color:var(--muted);}
 
-  /* CONTACT */
-  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  @media(max-width:640px){.contact-grid{grid-template-columns:1fr;}}
-  .ccard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
-  .ccard .cic{width:44px;height:44px;border-radius:11px;background:rgba(124,92,255,0.14);color:var(--v2);display:grid;place-items:center;flex:none;}
-  .ccard .clbl{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);font-weight:700;}
-  .ccard a,.ccard .cval{display:block;font-size:15px;font-weight:650;color:var(--text);margin-top:4px;word-break:break-word;}
-  .ccard a:hover{color:var(--cyan);}
-  .socrow{display:flex;gap:10px;flex-wrap:wrap;}
-  .socbtn{display:inline-flex;align-items:center;gap:9px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-size:14px;font-weight:650;color:var(--text);transition:border-color .2s,transform .18s var(--ease);}
-  .socbtn:hover{border-color:var(--line-2);transform:translateY(-2px);}
-  .socbtn.off{opacity:0.45;pointer-events:none;}
-  .socbtn.off .tagno{font-size:11px;font-weight:600;color:var(--pink);}
-  .socbtn .sic{display:grid;place-items:center;}
-
-  /* KV */
   .kv{display:grid;grid-template-columns:170px 1fr;gap:14px 20px;font-size:14.5px;}
-  .kv dt{color:var(--muted);font-weight:600;} .kv dd{margin:0;}
-  .kv dd b{color:#fff;}
+  .kv dt{color:var(--muted);font-weight:600;} .kv dd{margin:0;} .kv dd b{color:#fff;}
   @media(max-width:600px){.kv{grid-template-columns:1fr;gap:3px 0;}.kv dd{margin-bottom:12px;}}
 
-  /* LIST */
   ul.list{list-style:none;margin:0;padding:0;display:grid;gap:12px;}
   ul.list li{display:flex;gap:12px;font-size:14.5px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;}
   ul.list li .mk{flex:none;margin-top:1px;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:800;}
@@ -134,7 +105,6 @@
   ul.list li .mk.gap{background:rgba(236,72,153,0.16);color:var(--pink);}
   ul.list li b{color:#fff;font-weight:700;} ul.list li span{color:var(--muted);}
 
-  /* ACCORDION (opportunities & gaps) */
   .acc{display:grid;gap:12px;}
   .item{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .2s;}
   .item.open{border-color:var(--line-2);}
@@ -149,416 +119,478 @@
   .item .chev{flex:none;color:var(--dim);transition:transform .25s var(--ease);}
   .item.open .chev{transform:rotate(180deg);}
   .item .detail{max-height:0;overflow:hidden;transition:max-height .3s var(--ease);}
-  .item.open .detail{max-height:520px;}
-  .item .detail .in{padding:0 18px 18px 62px;border-top:1px solid var(--line);margin-top:0;padding-top:14px;}
+  .item.open .detail{max-height:560px;}
+  .item .detail .in{padding:14px 18px 18px 62px;border-top:1px solid var(--line);}
   .item .detail h4{font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim);margin:0 0 8px;font-weight:700;}
-  .item .detail .in > p{margin:0 0 14px;color:var(--muted);font-size:14px;}
+  .item .detail .in>p{margin:0 0 14px;color:var(--muted);font-size:14px;}
   .item .detail ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
   .item .detail ul li{display:flex;gap:9px;font-size:13.5px;color:var(--text);}
   .item .detail ul li::before{content:"";flex:none;margin-top:8px;width:5px;height:5px;border-radius:50%;background:var(--cyan);}
-  @media(max-width:560px){.item .bar .sub{display:none;} .item .prio{display:none;} .item .detail .in{padding-left:18px;}}
+  @media(max-width:560px){.item .bar .sub{display:none;}.item .prio{display:none;}.item .detail .in{padding-left:18px;}}
 
-  /* CTA */
-  .cta{margin-top:26px;border:1px solid var(--line-2);border-radius:18px;padding:30px;text-align:center;background:var(--bg-2);position:relative;overflow:hidden;}
-  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 100% at 50% 0%,rgba(124,92,255,0.2),transparent 70%);}
-  .cta h3{font-size:22px;font-weight:800;position:relative;}
-  .cta p{color:var(--muted);margin:10px auto 20px;max-width:48ch;position:relative;font-size:14.5px;}
-  .cta .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
-  .disclaimer{font-size:12px;color:var(--dim);margin-top:26px;line-height:1.5;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.contact-grid{grid-template-columns:1fr;}}
+  .ccard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+  .ccard .cic{width:44px;height:44px;border-radius:11px;background:rgba(124,92,255,0.14);color:var(--v2);display:grid;place-items:center;flex:none;}
+  .ccard .clbl{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);font-weight:700;}
+  .ccard a,.ccard .cval{display:block;font-size:15px;font-weight:650;color:var(--text);margin-top:4px;word-break:break-word;}
+  .ccard a:hover{color:var(--cyan);}
+  .socrow{display:flex;gap:10px;flex-wrap:wrap;}
+  .socbtn{display:inline-flex;align-items:center;gap:9px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-size:14px;font-weight:650;color:var(--text);transition:border-color .2s,transform .18s var(--ease);}
+  .socbtn:hover{border-color:var(--line-2);transform:translateY(-2px);}
+  .socbtn.off{opacity:0.45;pointer-events:none;}
+  .socbtn.off .tagno{font-size:11px;font-weight:600;color:var(--pink);}
+  .socbtn .sic{display:grid;place-items:center;}
 
-  /* PROPOSAL */
-  .badge-ai{background:var(--grad)!important;color:#0A0A12!important;font-weight:800;}
+  .prop-h{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;margin:26px 0 12px;}
   .genbox{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:26px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14.5px;}
-  .genbox .spin{width:17px;height:17px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--v);animation:spin .8s linear infinite;flex:none;}
+  .genbox .spin,.load .spin{width:17px;height:17px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--v);animation:spin .8s linear infinite;flex:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .prop-intro{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;font-size:14.5px;margin-bottom:8px;}
-  .prop-intro .from{font-size:12.5px;color:var(--muted);margin-bottom:10px;}
-  .prop-intro .from b{color:#fff;}
-  .prop-h{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;margin:26px 0 12px;}
+  .prop-intro .from{font-size:12.5px;color:var(--muted);margin-bottom:10px;} .prop-intro .from b{color:#fff;}
   .phase{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:12px;}
   .phase .ph-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
   .phase .tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;padding:4px 10px;border-radius:99px;background:rgba(124,92,255,0.16);color:var(--v2);}
-  .phase h3{font-size:16.5px;font-weight:800;}
-  .phase .when{margin-left:auto;font-size:12.5px;color:var(--muted);}
+  .phase h3{font-size:16.5px;font-weight:800;} .phase .when{margin-left:auto;font-size:12.5px;color:var(--muted);}
   .phase ul{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px;}
   .phase ul li{display:flex;gap:9px;font-size:14px;color:var(--text);} .phase ul li::before{content:"";flex:none;margin-top:8px;width:5px;height:5px;border-radius:50%;background:var(--cyan);}
   .phase .out{font-size:13.5px;color:var(--green);font-weight:600;}
-  .whyus{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .whyus div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;}
-  .whyus b{color:#fff;}
-  .prop-table{width:100%;border-collapse:collapse;font-size:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
-  .prop-table td{padding:14px 16px;border-bottom:1px solid var(--line);}
-  .prop-table tr:last-child td{border-bottom:none;background:rgba(124,92,255,0.08);}
-  .prop-table td:last-child{text-align:right;font-weight:800;color:#fff;white-space:nowrap;}
-  .prop-note{font-size:12.5px;color:var(--dim);margin-top:10px;}
+  .whyus{display:grid;grid-template-columns:1fr 1fr;gap:10px;} .whyus div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;} .whyus b{color:#fff;}
   @media(max-width:600px){.whyus{grid-template-columns:1fr;}.phase .when{margin-left:0;}}
+  .cta{margin-top:26px;border:1px solid var(--line-2);border-radius:18px;padding:30px;text-align:center;background:var(--bg-2);position:relative;overflow:hidden;}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 100% at 50% 0%,rgba(124,92,255,0.2),transparent 70%);}
+  .cta h3{font-size:22px;font-weight:800;position:relative;} .cta p{color:var(--muted);margin:10px auto 20px;max-width:48ch;position:relative;font-size:14.5px;}
+  .cta .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
+  .disclaimer{font-size:12px;color:var(--dim);margin-top:26px;line-height:1.5;}
 
-  /* MOBILE */
-  .menutoggle{display:none;}
-  .scrim{display:none;}
+  /* history */
+  .hitem{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:10px;cursor:pointer;transition:border-color .18s,transform .18s var(--ease);}
+  .hitem:hover{border-color:var(--line-2);transform:translateX(2px);}
+  .hitem .hic{width:32px;height:32px;border-radius:8px;background:var(--panel-2);display:grid;place-items:center;flex:none;color:var(--cyan);}
+  .hitem .hu{flex:1;min-width:0;font-size:14.5px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .hitem .ht{font-size:12px;color:var(--dim);flex:none;}
+  .hitem .hgo{flex:none;color:var(--muted);}
+  .hempty{color:var(--muted);font-size:14px;}
+
+  /* loading overlay */
+  .load{position:fixed;inset:0;z-index:200;background:rgba(8,8,15,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;place-items:center;}
+  .load.show{display:grid;}
+  .load .box{text-align:center;max-width:420px;padding:26px;}
+  .load .ring{width:56px;height:56px;border-radius:50%;border:3px solid var(--line-2);border-top-color:var(--v);animation:spin .8s linear infinite;margin:0 auto 20px;}
+  .load h3{font-size:19px;font-weight:800;margin-bottom:8px;}
+  .load p{color:var(--muted);font-size:14px;margin:0;word-break:break-all;}
+  .load .lsteps{margin-top:18px;text-align:left;display:grid;gap:8px;}
+  .load .ls{font-size:13px;color:var(--dim);display:flex;gap:9px;align-items:center;}
+  .load .ls.on{color:var(--text);} .load .ls .d{width:6px;height:6px;border-radius:50%;background:var(--dim);} .load .ls.on .d{background:var(--green);}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--panel-2);border:1px solid var(--line-2);color:var(--text);padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 20px 50px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);z-index:210;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .menutoggle{display:none;} .scrim{display:none;}
   @media(max-width:860px){
     .app{grid-template-columns:1fr;}
     .sidebar{position:static;height:auto;overflow:visible;width:auto;border-right:none;border-bottom:1px solid var(--line);padding:14px 16px;gap:10px;}
     .sb-target,.sb-foot{display:none;}
-    .sb-nav{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
+    .sb-nav{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:2px;}
     .sb-grouplabel{display:none;}
     .navbtn{flex:none;width:auto;white-space:nowrap;padding:8px 14px;border:1px solid var(--line);border-radius:99px;}
-    .navbtn.active::before{display:none;}
-    .navbtn .badge{display:none;}
-    .menutoggle,.scrim{display:none!important;}
-    .content{padding:24px 16px 50px;}
-    .topbar{padding:12px 16px;}
-    .stats{grid-template-columns:1fr 1fr;}
+    .navbtn.active::before{display:none;} .navbtn .badge{display:none;}
+    .content{padding:24px 16px 50px;} .topbar{padding:12px 16px;} .stats{grid-template-columns:1fr 1fr;}
   }
+  body.exporting .panel{display:block!important;}
+  body.exporting .item .detail{max-height:none!important;overflow:visible!important;}
+  body.exporting #proposalGen{display:none!important;} body.exporting #proposalBody{display:block!important;}
   :focus-visible{outline:2px solid var(--v);outline-offset:2px;border-radius:6px;}
-
-  /* PRINT / EXPORT PDF — full report, forced LIGHT so it's always readable */
-  @media print{
-    .sidebar,.topbar,.toast{display:none!important;}
-    .app{display:block;}
-    .content{max-width:none;padding:6px 14px;}
-    html,body{background:#fff!important;}
-    .content,.content *{color:#1c1c22!important;-webkit-text-fill-color:#1c1c22!important;background-image:none!important;}
-    .phead .eye{color:#6d28d9!important;-webkit-text-fill-color:#6d28d9!important;}
-    .verdict,.stat,.metric,.fwbox,.ccard,.socbtn,.item,.phase,.prop-intro,.whyus div,.prop-table,.cta,ul.list li,.agentbox{background:#fff!important;border:1px solid #d9d9e0!important;box-shadow:none!important;}
-    .prop-table td{border:1px solid #d9d9e0!important;}
-    .cta::before{display:none!important;}
-    .gauge{background:#e6e6ee!important;} .gauge::before{background:#fff!important;}
-    .panel{display:block!important;margin-bottom:20px;page-break-inside:auto;}
-    .phead{page-break-after:avoid;}
-    .item .detail{max-height:none!important;overflow:visible!important;}
-    #proposalGen{display:none!important;} #proposalBody{display:block!important;}
-    .sum-grid{grid-template-columns:1fr 1fr!important;}
-    .socbtn.off{opacity:1!important;}
-    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  }
-
-  /* TOAST */
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--panel-2);border:1px solid var(--line-2);color:var(--text);padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 20px 50px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);z-index:100;}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 
 <div class="app">
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-    <a class="sb-brand" href="index.html"><span class="mark" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#0A0A12" stroke-width="2.2"/><path d="M21 21l-4-4" stroke="#0A0A12" stroke-width="2.2" stroke-linecap="round"/></svg></span> Reach<span class="grad-text">Scale</span></a>
-
-    <div class="sb-target">
-      <div class="row">
-        <span class="fav"><img src="https://1dollardigitizing.com/images/logo.png" alt="" onerror="this.onerror=null;this.src='https://www.google.com/s2/favicons?domain=1dollardigitizing.com&sz=64'" style="width:100%;height:100%;object-fit:contain;border-radius:6px;background:#fff;padding:3px;"></span>
-        <span><b>1DollarDigitizing</b><span class="u">1dollardigitizing.com</span></span>
-      </div>
-      <div class="scorebar"><span class="track"><span class="fill"></span></span><span class="val">62</span></div>
-    </div>
-
+    <a class="sb-brand" href="index.html"><span class="mark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#0A0A12" stroke-width="2.2"/><path d="M21 21l-4-4" stroke="#0A0A12" stroke-width="2.2" stroke-linecap="round"/></svg></span> Reach<span class="grad-text">Scale</span></a>
+    <div class="sb-target" id="sbTarget"></div>
     <div class="sb-nav">
-    <div class="sb-grouplabel">Their profile</div>
-    <button class="navbtn active" data-tab="summary"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></span> Summary</button>
-    <button class="navbtn" data-tab="overview"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5m0 3h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Overview</button>
-    <button class="navbtn" data-tab="presence"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Digital presence</button>
-    <button class="navbtn" data-tab="contact"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Contact &amp; socials</button>
-    <button class="navbtn" data-tab="strengths"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> What's done well <span class="badge">5</span></button>
-    <button class="navbtn" data-tab="gaps"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9l-8 13.9A2 2 0 004 21h16a2 2 0 001.7-3.2l-8-13.9a2 2 0 00-3.4 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Gaps &amp; weaknesses <span class="badge">6</span></button>
-
-    <div class="sb-grouplabel">What we provide</div>
-    <button class="navbtn" data-tab="opportunities"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Opportunities <span class="badge">8</span></button>
-    <button class="navbtn" data-tab="proposal"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6M9 13l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Proposal <span class="badge badge-ai">AI</span></button>
+      <div class="sb-grouplabel">Their profile</div>
+      <button class="navbtn active" data-tab="summary"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></span> Summary</button>
+      <button class="navbtn" data-tab="overview"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5m0 3h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Overview</button>
+      <button class="navbtn" data-tab="presence"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Digital presence</button>
+      <button class="navbtn" data-tab="contact"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Contact &amp; socials</button>
+      <button class="navbtn" data-tab="strengths"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> What's done well <span class="badge" id="bStr">0</span></button>
+      <button class="navbtn" data-tab="gaps"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9l-8 13.9A2 2 0 004 21h16a2 2 0 001.7-3.2l-8-13.9a2 2 0 00-3.4 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Gaps &amp; weaknesses <span class="badge" id="bGap">0</span></button>
+      <div class="sb-grouplabel">What we provide</div>
+      <button class="navbtn" data-tab="opportunities"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Opportunities <span class="badge" id="bOpp">0</span></button>
+      <button class="navbtn" data-tab="proposal"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6M9 13l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Proposal <span class="badge badge-ai">AI</span></button>
+      <button class="navbtn" data-tab="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 4v3h3M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Searches history</button>
     </div>
-
     <div class="sb-foot"><a class="btn btn-ghost" href="index.html" style="width:100%;justify-content:center;">← New search</a></div>
   </aside>
-  <div class="scrim" id="scrim"></div>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button class="btn btn-ghost menutoggle" id="menutoggle" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-        <span class="crumb">Report · <b id="crumbTitle">Summary</b></span>
-      </div>
+      <span class="crumb">Report · <b id="crumbTitle">Summary</b></span>
       <div class="actions">
-        <button class="btn btn-ghost" type="button" onclick="window.print()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Export PDF</button>
+        <button class="btn btn-ghost" type="button" onclick="exportPDF()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Export PDF</button>
         <button class="btn btn-ghost" type="button" id="shareBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 8a3 3 0 10-2.8-4M6 12a3 3 0 100 0M18 16a3 3 0 10-2.8 4M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Share</button>
         <button class="btn btn-grad" type="button" onclick="showTab('proposal','Proposal')">Proposal →</button>
       </div>
     </div>
 
     <div class="content">
-      <!-- SUMMARY -->
       <section class="panel active" data-tab="summary">
-        <div class="phead"><div class="eye">Snapshot</div><h1>Solid product, under-built digital operation</h1><p>Fast modern backend and clear pricing — held back by fragmented SEO/social, no automation and no customer portal. A high-value client opportunity.</p></div>
+        <div class="phead"><div class="eye">Snapshot</div><h1 id="sumHead">Analyzing…</h1><p id="sumSub"></p></div>
         <div class="sum-grid">
-        <div class="sum-main">
-        <div class="verdict">
-          <div class="score"><b>62</b></div>
-          <div><h3>Overall digital-maturity score</h3><p>Strong on product &amp; pricing · weak on automation, SEO consolidation, social &amp; retention tooling.</p></div>
-        </div>
-        <div class="stats">
-          <div class="stat"><div class="n grad-text">$1</div><div class="l">Pricing from — per 1,000 stitches ($6 min)</div></div>
-          <div class="stat"><div class="n grad-text">2005</div><div class="l">In business since (~21 years)</div></div>
-          <div class="stat"><div class="n grad-text">2</div><div class="l">Official social channels (FB + IG)</div></div>
-          <div class="stat"><div class="n grad-text">0</div><div class="l">Live chat · instant-quote · portal</div></div>
-          <div class="stat"><div class="n grad-text">24h</div><div class="l">Turnaround (rush ~6h)</div></div>
-          <div class="stat"><div class="n grad-text">~1.8s</div><div class="l">Homepage load (Laravel + LiteSpeed)</div></div>
-          <div class="stat"><div class="n grad-text">0</div><div class="l">Third-party reviews found</div></div>
-          <div class="stat"><div class="n grad-text">8</div><div class="l">Services we can pitch</div></div>
-        </div>
-        </div>
-        <aside class="sum-side">
-          <div class="metric"><div class="gauge" style="--p:66;--c:var(--v)"><b>66%</b></div><div class="mt"><h4>UI / UX strength</h4><p>Clear &amp; fast, but dated design and inconsistent routing.</p></div></div>
-          <div class="metric"><div class="gauge" style="--p:42;--c:var(--amber)"><b>42%</b></div><div class="mt"><h4>SEO score</h4><p>Hurt by legacy .php pages, duplicate blog &amp; 404s.</p></div></div>
-          <div class="fwbox"><span class="fwic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="lbl">Built with</div><b>Laravel</b><div class="chips"><span>PHP 8.5</span><span>LiteSpeed</span><span>GTM</span></div></div></div>
-        </aside>
+          <div class="sum-main">
+            <div class="verdict"><div class="score" id="sumScore"><b>–</b></div><div><h3>Overall digital-maturity score</h3><p id="sumScoreNote"></p></div></div>
+            <div class="stats" id="statsGrid"></div>
+          </div>
+          <aside class="sum-side" id="sumSide"></aside>
         </div>
       </section>
-
-      <!-- OVERVIEW -->
-      <section class="panel" data-tab="overview">
-        <div class="phead"><div class="eye">Their profile</div><h1>Overview</h1><p>Who they are and how they make money.</p></div>
-        <dl class="kv">
-          <dt>What they do</dt><dd>Outsourced embroidery digitizing &amp; vector-art conversion — turns customer logos/artwork into machine-ready embroidery files and print-ready vectors (B2B production service).</dd>
-          <dt>Core services</dt><dd>Custom &amp; logo digitizing, 3D puff, applique, chain-stitch, photo digitizing, vector art / redraws, patches.</dd>
-          <dt>Pricing model</dt><dd><b>$1 per 1,000 stitches</b> ($6 minimum); vector art $6/hr. First-time hook: $1 flat first logo up to 10k stitches.</dd>
-          <dt>Turnaround</dt><dd>24h standard · 12h &amp; ~6–8h rush.</dd>
-          <dt>Target audience</dt><dd>Embroidery shops, apparel decorators, screen printers, promo-product companies, home embroidery businesses, sports leagues.</dd>
-          <dt>Business model</dt><dd>Low-ticket, high-volume, <b>repeat-order</b> outsourcing. Claims: since 2005, 10,000+ shops, 1M+ designs, 100% satisfaction guarantee.</dd>
-        </dl>
+      <section class="panel" data-tab="overview"><div class="phead"><div class="eye">Their profile</div><h1>Overview</h1><p>Who they are and what we detected.</p></div><dl class="kv" id="ovKV"></dl></section>
+      <section class="panel" data-tab="presence"><div class="phead"><div class="eye">Their profile</div><h1>Digital presence detected</h1><p>Tech, channels and footprint we found.</p></div><dl class="kv" id="presKV"></dl></section>
+      <section class="panel" data-tab="contact"><div class="phead"><div class="eye">Their profile</div><h1>Contact &amp; social links</h1><p>How to reach them and where they're present online.</p></div><div id="contactWrap"></div></section>
+      <section class="panel" data-tab="strengths"><div class="phead"><div class="eye">Their profile</div><h1>What's done well</h1><p>Foundations already working in their favour.</p></div><ul class="list" id="strList"></ul></section>
+      <section class="panel" data-tab="gaps"><div class="phead"><div class="eye">Their profile</div><h1>Gaps &amp; weaknesses</h1><p>Click each to see why it matters — these are the openings for us.</p></div><div class="acc" id="gapsAcc"></div></section>
+      <section class="panel" data-tab="opportunities"><div class="phead"><div class="eye">What we provide</div><h1>Opportunities to pitch</h1><p>Click any service for what's included and why it matters.</p></div><div class="acc" id="oppAcc"></div>
+        <div class="cta"><h3>Ready to win this client?</h3><p id="ctaP"></p><div class="row"><button class="btn btn-grad" type="button" onclick="showTab('proposal','Proposal')">Generate proposal →</button><a class="btn btn-ghost" href="index.html">Analyze another URL</a></div></div>
       </section>
-
-      <!-- PRESENCE -->
-      <section class="panel" data-tab="presence">
-        <div class="phead"><div class="eye">Their profile</div><h1>Digital presence detected</h1><p>Tech, channels and footprint we found.</p></div>
-        <dl class="kv">
-          <dt>Platform / tech</dt><dd>Custom <b>Laravel (PHP 8.5)</b> app on <b>LiteSpeed</b> with caching — not WordPress. Google Tag Manager installed. Customer login/session system already present.</dd>
-          <dt>Pages</dt><dd>Home, Services, Pricing, Process, Formats, About, Blog, Stock Designs, Contact, Login/Sign Up, Book a Meeting. Several clean-slug URLs returned 404 → routing inconsistencies.</dd>
-          <dt>Contact</dt><dd>Phone +1 (206) 312-6446 · support@1dollardigitizing.com · Fremont, CA · quote/upload form · meeting scheduler. <b>No live chat / WhatsApp.</b></dd>
-          <dt>Payments</dt><dd>Visa, MasterCard, Amex, Discover, PayPal.</dd>
-          <dt>Social</dt><dd>Official: <b>Facebook + Instagram only.</b> No LinkedIn / YouTube / X. Multiple duplicate pages (followers as low as ~48–290) — brand fragmentation.</dd>
-          <dt>SEO footprint</dt><dd>Legacy <b>.php</b> pages + an abandoned <b>wordpress.com</b> blog still live — duplicate content splitting domain authority.</dd>
-        </dl>
-      </section>
-
-      <!-- CONTACT & SOCIALS -->
-      <section class="panel" data-tab="contact">
-        <div class="phead"><div class="eye">Their profile</div><h1>Contact &amp; social links</h1><p>How to reach them and where they're present online.</p></div>
-        <div class="contact-grid">
-          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="clbl">Phone</div><a href="tel:+12063126446">+1 (206) 312-6446</a></div></div>
-          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 7l10 6 10-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><div class="clbl">Email</div><a href="mailto:support@1dollardigitizing.com">support@1dollardigitizing.com</a></div></div>
-          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-5-7-11a7 7 0 0114 0c0 6-7 11-7 11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg></span><div><div class="clbl">Address</div><a href="https://www.google.com/maps/search/?api=1&query=46494+Mission+Blvd+Fremont+CA+94539" target="_blank" rel="noopener">46494 Mission Blvd, Fremont, CA 94539</a></div></div>
-          <div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg></span><div><div class="clbl">Website</div><a href="https://1dollardigitizing.com" target="_blank" rel="noopener">1dollardigitizing.com</a></div></div>
-        </div>
-
-        <div class="prop-h">Social media</div>
-        <div class="socrow">
-          <a class="socbtn" href="https://facebook.com/1dollardigitizing01" target="_blank" rel="noopener"><span class="sic" style="color:#4A9BFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.5c0-.3.2-.5.5-.5z"/></svg></span> Facebook</a>
-          <a class="socbtn" href="https://instagram.com/1dollardigitizing1" target="_blank" rel="noopener"><span class="sic" style="color:#EC4899"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="7" r="1.2" fill="currentColor"/></svg></span> Instagram</a>
-          <span class="socbtn off"><span class="sic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8A1.5 1.5 0 106.5 5a1.5 1.5 0 000 3zM5 10h3v9H5v-9zm5 0h3v1.3c.5-.8 1.5-1.5 3-1.5 2.3 0 3 1.5 3 4V19h-3v-4.6c0-1.1-.4-1.8-1.4-1.8-1 0-1.6.7-1.6 1.8V19h-3v-9z"/></svg></span> LinkedIn <span class="tagno">· not found</span></span>
-          <span class="socbtn off"><span class="sic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3-5 3z"/></svg></span> YouTube <span class="tagno">· not found</span></span>
-          <span class="socbtn off"><span class="sic"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-5 7H3l8-9L3 2h6l4 6 5-6z"/></svg></span> X / Twitter <span class="tagno">· not found</span></span>
-        </div>
-        <p class="disclaimer">Note: multiple duplicate/near-identical Facebook &amp; Instagram pages exist for this brand — a consolidation opportunity (see Opportunities).</p>
-      </section>
-
-      <!-- STRENGTHS -->
-      <section class="panel" data-tab="strengths">
-        <div class="phead"><div class="eye">Their profile</div><h1>What's done well</h1><p>The foundations already working in their favour.</p></div>
-        <ul class="list">
-          <li><span class="mk ok">✓</span><span><b>Transparent, simple pricing</b> up front ($1/1k stitches, $6 min, $1 first-logo hook) — a strong conversion lever.</span></li>
-          <li><span class="mk ok">✓</span><span><b>Clear fast-turnaround claims</b> (24h standard, 6–12h rush) prominently placed.</span></li>
-          <li><span class="mk ok">✓</span><span><b>Modern, fast backend already in place</b> — custom Laravel + LiteSpeed cache, ~1.8s homepage load.</span></li>
-          <li><span class="mk ok">✓</span><span><b>Existing login + analytics (GTM)</b> — a real foundation to build a customer portal on.</span></li>
-          <li><span class="mk ok">✓</span><span><b>Trust signals present</b> — longevity, volume stats, satisfaction guarantee, testimonials, broad format support (DST/PES/EXP/JEF…).</span></li>
-        </ul>
-      </section>
-
-      <!-- GAPS -->
-      <section class="panel" data-tab="gaps">
-        <div class="phead"><div class="eye">Their profile</div><h1>Gaps &amp; weaknesses</h1><p>Click each to see why it matters. These are the openings for us.</p></div>
-        <div class="acc" id="gapsAcc"></div>
-      </section>
-
-      <!-- OPPORTUNITIES -->
-      <section class="panel" data-tab="opportunities">
-        <div class="phead"><div class="eye">What we provide</div><h1>Opportunities to pitch</h1><p>Click any service for what's included and why it matters. Ranked by impact.</p></div>
-        <div class="acc" id="oppAcc"></div>
-        <div class="cta">
-          <h3>Ready to win 1DollarDigitizing?</h3>
-          <p>The wedge: <b style="color:#fff;">order portal + instant-quote automation + SEO consolidation</b>. Lead with those, then upsell chat, CRM &amp; social.</p>
-          <div class="row"><button class="btn btn-grad" type="button" onclick="showTab('proposal','Proposal')">Generate proposal →</button><a class="btn btn-ghost" href="index.html">Analyze another URL</a></div>
-        </div>
-        <p class="disclaimer">Report generated by ReachScale AI agents on 20 Jul 2026 from public data (live site, HTTP headers, web &amp; social search). Some figures could not be fully verified and should be confirmed in a live audit. A VV Tech Sol product.</p>
-      </section>
-
-      <!-- PROPOSAL -->
       <section class="panel" data-tab="proposal">
-        <div class="phead"><div class="eye">What we provide</div><h1>Proposal for 1DollarDigitizing</h1><p>Auto-drafted from the analysis — VV Tech Sol's recommended engagement.</p></div>
-
-        <div id="proposalGen" class="genbox"><span class="spin" aria-hidden="true"></span> Drafting a tailored proposal from the analysis &amp; VV Tech Sol services…</div>
-
-        <div id="proposalBody" style="display:none;">
-          <div class="prop-intro">
-            <div class="from">Prepared by <b>VV Tech Sol</b> · for <b>1DollarDigitizing</b> · 20 Jul 2026</div>
-            You have a strong product — transparent $1 pricing, fast turnaround and a modern Laravel backend. The opportunity is that this speed advantage runs on a manual, fragmented digital operation. VV Tech Sol proposes a phased program that converts it into <b style="color:#fff;">recurring revenue and predictable organic growth</b> — built on your existing platform, not a costly rebuild.
-          </div>
-
-          <div class="prop-h">Recommended roadmap</div>
-          <div class="phase">
-            <div class="ph-top"><span class="tag">Phase 1</span><h3>Foundation &amp; quick wins</h3><span class="when">2–3 weeks</span></div>
-            <ul><li>SEO cleanup — redirect legacy .php pages, remove the stray WordPress blog, fix 404 routing</li><li>Automated instant-quote &amp; upload system with stitch-count price estimator</li></ul>
-            <div class="out">→ Recover lost rankings and capture rush buyers 24/7.</div>
-          </div>
-          <div class="phase">
-            <div class="ph-top"><span class="tag">Phase 2</span><h3>Retention engine</h3><span class="when">4–6 weeks</span></div>
-            <ul><li>Customer order portal — history, 1-click re-order, live status, invoices</li><li>AI chatbot + live chat with WhatsApp &amp; lead capture</li></ul>
-            <div class="out">→ Turn one-off jobs into sticky recurring orders.</div>
-          </div>
-          <div class="phase">
-            <div class="ph-top"><span class="tag">Phase 3</span><h3>Growth &amp; brand</h3><span class="when">Ongoing retainer</span></div>
-            <ul><li>CRM + email automation (re-order reminders, win-backs, reviews)</li><li>Social consolidation + management, LinkedIn &amp; YouTube</li><li>Content/blog engine + Trustpilot/Google reputation</li><li>Paid ads (Google &amp; Meta) + UX/conversion refresh</li></ul>
-            <div class="out">→ Predictable lead flow and real third-party credibility.</div>
-          </div>
-
-          <div class="prop-h">Why VV Tech Sol</div>
-          <div class="whyus">
-            <div><b>Full-stack web &amp; custom software</b> — we build the portal &amp; quote engine on your existing Laravel base, no rebuild.</div>
-            <div><b>AI automation &amp; chatbots</b> — instant quotes, 24/7 support and lead capture.</div>
-            <div><b>SEO, content &amp; paid growth</b> — recover rankings and drive high-intent traffic.</div>
-            <div><b>Design + social under one roof</b> — one partner, one consistent brand.</div>
-          </div>
-
-          <div class="prop-h">Indicative investment</div>
-          <table class="prop-table">
-            <tr><td>Phase 1 — Foundation &amp; quick wins</td><td>from $1,200</td></tr>
-            <tr><td>Phase 2 — Retention engine (portal + AI chat)</td><td>from $3,500</td></tr>
-            <tr><td>Phase 3 — Growth retainer</td><td>from $800 / mo</td></tr>
-          </table>
-          <p class="prop-note">Indicative ranges — final scope &amp; quote confirmed after a short discovery call. Phases can be delivered together or step-by-step.</p>
-
-          <div class="cta" style="margin-top:26px;">
-            <h3>Let's turn this analysis into a win.</h3>
-            <p>Send this proposal to 1DollarDigitizing, or book a discovery call with VV Tech Sol.</p>
-            <div class="row"><button class="btn btn-grad" type="button" onclick="downloadProposal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="margin-right:2px"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download proposal (Word)</button><button class="btn btn-ghost" type="button" onclick="window.print()">Export PDF</button></div>
-          </div>
-        </div>
+        <div class="phead"><div class="eye">What we provide</div><h1 id="propHead">Proposal</h1><p>Auto-drafted from the analysis — VV Tech Sol's recommended engagement.</p></div>
+        <div id="proposalGen" class="genbox"><span class="spin"></span> Drafting a tailored proposal from the analysis &amp; VV Tech Sol services…</div>
+        <div id="proposalBody" style="display:none;"></div>
+      </section>
+      <section class="panel" data-tab="history">
+        <div class="phead"><div class="eye">Recent</div><h1>Searches history</h1><p>Every URL you analyzed. Click one to open its report.</p></div>
+        <div id="histList"></div>
       </section>
     </div>
   </div>
 </div>
 
+<div class="load" id="loader"><div class="box"><div class="ring"></div><h3>Analyzing website…</h3><p id="loadUrl"></p><div class="lsteps" id="loadSteps"></div></div></div>
+
 <script>
-  // TAB SWITCHING
-  var navbtns = document.querySelectorAll('.navbtn');
-  var panels = document.querySelectorAll('.panel');
-  var crumb = document.getElementById('crumbTitle');
-  function showTab(tab, label){
-    navbtns.forEach(function(b){ b.classList.toggle('active', b.dataset.tab===tab); });
-    panels.forEach(function(p){ p.classList.toggle('active', p.dataset.tab===tab); });
-    if(label) crumb.textContent = label;
-    document.querySelector('.content').scrollIntoView({block:'start'});
-    if(tab==='proposal') genProposal();
-    closeMenu();
-  }
-  var proposalDone=false;
-  function genProposal(){
-    if(proposalDone) return; proposalDone=true;
-    var gen=document.getElementById('proposalGen'), body=document.getElementById('proposalBody');
-    setTimeout(function(){ if(gen) gen.style.display='none'; if(body) body.style.display='block'; }, 1300);
-  }
-  function downloadProposal(){
-    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Proposal - 1DollarDigitizing</title></head>'+
-    '<body style="font-family:Calibri,Arial,sans-serif;color:#1a1a1a;font-size:11pt;">'+
-    '<h1 style="color:#6d28d9;margin-bottom:0;">Proposal for 1DollarDigitizing</h1>'+
-    '<p style="color:#666;margin-top:4px;">Prepared by <b>VV Tech Sol</b> &middot; 20 Jul 2026</p>'+
-    '<p>You have a strong product &mdash; transparent $1 pricing, fast turnaround and a modern Laravel backend. The opportunity is that this speed advantage runs on a manual, fragmented digital operation. VV Tech Sol proposes a phased program that converts it into recurring revenue and predictable organic growth &mdash; built on your existing platform, not a costly rebuild.</p>'+
-    '<h2 style="color:#4c1d95;">Recommended roadmap</h2>'+
-    '<h3>Phase 1 &mdash; Foundation &amp; quick wins (2&ndash;3 weeks)</h3><ul><li>SEO cleanup &mdash; redirect legacy .php pages, remove the stray WordPress blog, fix 404 routing.</li><li>Automated instant-quote &amp; upload system with stitch-count price estimator.</li></ul><p><i>Outcome: recover lost rankings and capture rush buyers 24/7.</i></p>'+
-    '<h3>Phase 2 &mdash; Retention engine (4&ndash;6 weeks)</h3><ul><li>Customer order portal &mdash; history, 1-click re-order, live status, invoices.</li><li>AI chatbot + live chat with WhatsApp &amp; lead capture.</li></ul><p><i>Outcome: turn one-off jobs into sticky recurring orders.</i></p>'+
-    '<h3>Phase 3 &mdash; Growth &amp; brand (ongoing retainer)</h3><ul><li>CRM + email automation (re-order reminders, win-backs, reviews).</li><li>Social consolidation + management, LinkedIn &amp; YouTube.</li><li>Content/blog engine + Trustpilot/Google reputation.</li><li>Paid ads (Google &amp; Meta) + UX/conversion refresh.</li></ul><p><i>Outcome: predictable lead flow and real third-party credibility.</i></p>'+
-    '<h2 style="color:#4c1d95;">Why VV Tech Sol</h2><ul><li>Full-stack web &amp; custom software &mdash; we build the portal &amp; quote engine on your existing Laravel base, no rebuild.</li><li>AI automation &amp; chatbots &mdash; instant quotes, 24/7 support and lead capture.</li><li>SEO, content &amp; paid growth &mdash; recover rankings and drive high-intent traffic.</li><li>Design + social under one roof &mdash; one partner, one consistent brand.</li></ul>'+
-    '<h2 style="color:#4c1d95;">Indicative investment</h2><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><tr><td>Phase 1 &mdash; Foundation &amp; quick wins</td><td align="right"><b>from $1,200</b></td></tr><tr><td>Phase 2 &mdash; Retention engine (portal + AI chat)</td><td align="right"><b>from $3,500</b></td></tr><tr><td>Phase 3 &mdash; Growth retainer</td><td align="right"><b>from $800 / mo</b></td></tr></table><p style="color:#777;font-size:9pt;">Indicative ranges &mdash; final scope &amp; quote confirmed after a short discovery call.</p>'+
-    '<hr><p><b>VV Tech Sol</b> &middot; hello@vvtechsol.com &middot; vvtechsol.com</p></body></html>';
-    var blob=new Blob(['﻿',html],{type:'application/msword'});
-    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='1DollarDigitizing-Proposal.doc';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    if(typeof toast==='function') toast('✓ Proposal downloaded (Word)');
-  }
-  navbtns.forEach(function(b){ b.addEventListener('click', function(){ showTab(b.dataset.tab, b.textContent.replace(/\d+$/,'').trim()); }); });
+  var qp=new URLSearchParams(location.search);
+  var A={};
+  var ICON_WEB='<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg>';
 
-  // MOBILE MENU
-  var sidebar = document.getElementById('sidebar'), scrim = document.getElementById('scrim');
-  function openMenu(){ sidebar.classList.add('open'); scrim.classList.add('show'); }
-  function closeMenu(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); }
-  document.getElementById('menutoggle').addEventListener('click', openMenu);
-  scrim.addEventListener('click', closeMenu);
+  function normalize(u){ u=(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u='https://'+u; return u; }
+  function domainOf(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return u.replace(/^https?:\/\//,'').split('/')[0]; } }
+  function esc(s){ return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
-  // GAPS accordion data
-  var GAPS = [
-    { t:'No live chat', s:'Same-day service, zero real-time contact', d:'A rush-turnaround business with no live chat or WhatsApp loses urgent leads who need an answer <i>now</i>. Buyers with a same-day deadline simply move to a competitor who replies instantly.' },
-    { t:'Fragmented, weak social presence', s:'Duplicate pages, tiny followings', d:'Multiple confusingly-named Facebook/Instagram pages (followers as low as ~48–290), no LinkedIn or YouTube, and no content engine. It creates brand confusion and zero credibility with trade buyers.' },
-    { t:'SEO liabilities', s:'Legacy .php + abandoned blog', d:'Old .php pages and a stray wordpress.com blog are still live and indexed, plus 404 routing on key URLs. The site competes against itself and leaks ranking authority.' },
-    { t:'No third-party reviews', s:'No Trustpilot / Google rating', d:'Trust rests entirely on self-reported on-site testimonials. B2B buyers look for independent proof — its absence is a conversion blocker.' },
-    { t:'No automation', s:'Manual quotes, no follow-ups', d:'Quote intake is manual (upload → human preview → email). No instant-quote calculator, no order-status tracking, no automated email follow-ups — a major bottleneck for a 24/7 rush service.' },
-    { t:'No portal depth / CRM / email marketing', s:'Repeat-order model, no retention tooling', d:'A login exists but there is no real customer dashboard (order history, re-orders, invoices) and no CRM or lifecycle email — despite a business that lives on repeat orders.' }
-  ];
-  // OPPORTUNITIES data
-  var OPPS = [
-    { r:1, t:'Customer order portal / dashboard', s:'Turns one-off jobs into recurring revenue', p:'high',
-      why:'A repeat-order business with no real portal is leaving retention on the table. A dashboard makes re-ordering effortless and locks clients in.',
-      inc:['Secure customer login area','Upload &amp; full order history','1-click re-order of past designs','Live order status tracking','Downloadable invoices &amp; receipts','Saved preferred file formats'] },
-    { r:2, t:'Automated instant-quote &amp; upload system', s:'Converts rush buyers 24/7 without staff', p:'high',
-      why:'Manual quoting is the bottleneck. An instant estimate on upload captures urgent buyers around the clock.',
-      inc:['Drag-and-drop artwork upload','Stitch-count &amp; price estimator','Instant price + turnaround quote','Auto file-type detection','Quote-to-order conversion flow'] },
-    { r:3, t:'SEO cleanup &amp; technical fix', s:'Recovers rankings, stops self-competition', p:'high',
-      why:'The site is competing against its own legacy pages. Fixing this recovers lost rankings fast — often the quickest win.',
-      inc:['301-redirect all legacy .php pages','Remove / redirect the WordPress blog','Fix 404 routing &amp; canonical tags','XML sitemap + on-page SEO','Consolidate to one clean domain'] },
-    { r:4, t:'AI chatbot + live chat', s:'Recovers urgent same-day leads', p:'med',
-      why:'Round-the-clock answers on pricing, turnaround and formats capture leads currently lost to silence.',
-      inc:['Chatbot trained on their pricing/FAQ','Human handoff for complex jobs','Lead capture into CRM','WhatsApp integration'] },
-    { r:5, t:'CRM + email / marketing automation', s:'Monetizes the existing customer base', p:'med',
-      why:'They aren’t marketing to the customers they already have. Lifecycle automation drives repeat orders cheaply.',
-      inc:['CRM setup &amp; contact import','Abandoned-quote follow-ups','Re-order &amp; review-request flows','Win-back campaigns + newsletter'] },
-    { r:6, t:'Social consolidation + management', s:'Fixes brand confusion, builds credibility', p:'med',
-      why:'Merging duplicate pages into one identity and adding B2B channels builds trust with trade buyers.',
-      inc:['Audit &amp; merge duplicate pages','Unified branding + content calendar','LinkedIn (B2B) + YouTube setup','Stitch-out demo reels'] },
-    { r:7, t:'Content / blog engine + reputation', s:'Durable organic leads + real proof', p:'med',
-      why:'A search-driven niche rewards content, and third-party reviews add the proof they completely lack.',
-      inc:['SEO blog on one system','Keyword-targeted content plan','Trustpilot + Google Business setup','Review seeding &amp; monitoring'] },
-    { r:8, t:'Paid ads + UX / conversion redesign', s:'Fast growth + higher conversion', p:'med',
-      why:'High-intent search + retargeting drives immediate volume; a front-end refresh lifts conversion on their existing Laravel base.',
-      inc:['Google &amp; Meta ad campaigns','Retargeting on quote drop-offs','Front-end modernization + mobile polish','Clearer CTAs &amp; trust signals'] }
-  ];
-
-  function accItem(cfg){
-    var inc = cfg.inc ? '<h4>What it includes</h4><ul>'+cfg.inc.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>' : '';
-    var why = cfg.why ? '<p>'+cfg.why+'</p>' : (cfg.d ? '<p>'+cfg.d+'</p>' : '');
-    var rank = cfg.r ? '<span class="rank">'+cfg.r+'</span>' : '<span class="rank" style="background:rgba(236,72,153,0.16);color:var(--pink);">!</span>';
-    var prio = cfg.p ? '<span class="prio '+cfg.p+'">'+(cfg.p==='high'?'High':'Medium')+'</span>' : '';
-    return '<div class="item"><div class="bar">'+rank+
-      '<div class="t"><h3>'+cfg.t+'</h3><div class="sub">'+cfg.s+'</div></div>'+prio+
-      '<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+
-      '</div><div class="detail"><div class="in">'+why+inc+'</div></div></div>';
+  // ---- FETCH via CORS proxies ----
+  function fetchHTML(url){
+    var proxies=[ 'https://api.allorigins.win/raw?url='+encodeURIComponent(url), 'https://corsproxy.io/?url='+encodeURIComponent(url), 'https://thingproxy.freeboard.io/fetch/'+url ];
+    var i=0;
+    function tryNext(){
+      if(i>=proxies.length) return Promise.resolve(null);
+      return fetch(proxies[i++]).then(function(r){ return r.ok?r.text():null; }).then(function(t){ return (t&&t.length>200)?t:tryNext(); }).catch(function(){ return tryNext(); });
+    }
+    return tryNext();
   }
-  document.getElementById('gapsAcc').innerHTML = GAPS.map(accItem).join('');
-  document.getElementById('oppAcc').innerHTML = OPPS.map(accItem).join('');
-  document.querySelectorAll('.acc').forEach(function(acc){
-    acc.addEventListener('click', function(e){
-      var bar = e.target.closest('.bar'); if(!bar) return;
-      bar.parentElement.classList.toggle('open');
+
+  // ---- ANALYZE ----
+  function analyze(url, html){
+    var d=A, dom=domainOf(url); var h=(html||'').toLowerCase();
+    var doc=null; try{ doc=new DOMParser().parseFromString(html||'','text/html'); }catch(e){}
+    var q=function(s){ return doc?doc.querySelector(s):null; };
+    var qa=function(s){ return doc?doc.querySelectorAll(s):[]; };
+    var meta=function(n){ var e=q('meta[name="'+n+'"]')||q('meta[property="'+n+'"]'); return e?(e.getAttribute('content')||''):''; };
+
+    var title=(q('title')&&q('title').textContent||'').trim();
+    var desc=meta('description')||meta('og:description');
+    var viewport=!!q('meta[name="viewport"]');
+    var h1=!!q('h1');
+    var canonical=!!q('link[rel="canonical"]');
+    var ogImg=!!(q('meta[property="og:image"]'));
+    var favUrl='https://www.google.com/s2/favicons?domain='+encodeURIComponent(dom)+'&sz=128';
+    var imgs=qa('img').length, links=qa('a').length, scripts=qa('script').length;
+    var bodyText=doc&&doc.body?doc.body.textContent.replace(/\s+/g,' ').trim():''; var words=bodyText?bodyText.split(' ').length:0;
+    var https=/^https:/i.test(url);
+
+    // framework
+    var gen=meta('generator').toLowerCase(); var fw={name:'Custom / Unknown',tags:['HTML']};
+    if(/wp-content|wp-includes/.test(h)||/wordpress/.test(gen)) fw={name:'WordPress',tags:['CMS','PHP']};
+    else if(/cdn\.shopify\.com|myshopify|shopify/.test(h)) fw={name:'Shopify',tags:['E-commerce']};
+    else if(/static\.wixstatic|wix\.com|_wix/.test(h)||/wix/.test(gen)) fw={name:'Wix',tags:['Builder']};
+    else if(/squarespace/.test(h)) fw={name:'Squarespace',tags:['Builder']};
+    else if(/webflow/.test(h)||/webflow/.test(gen)) fw={name:'Webflow',tags:['Builder']};
+    else if(/__next_data__|\/_next\//.test(h)) fw={name:'Next.js',tags:['React','SSR']};
+    else if(/data-reactroot|react-dom|"react"/.test(h)) fw={name:'React',tags:['JavaScript']};
+    else if(/ng-version|angular/.test(h)) fw={name:'Angular',tags:['JavaScript']};
+    else if(/laravel_session|laravel/.test(h)) fw={name:'Laravel',tags:['PHP']};
+    else if(/drupal/.test(h)||/drupal/.test(gen)) fw={name:'Drupal',tags:['CMS','PHP']};
+    else if(/joomla/.test(h)||/joomla/.test(gen)) fw={name:'Joomla',tags:['CMS','PHP']};
+    else if(/bootstrap/.test(h)) fw={name:'Custom (Bootstrap)',tags:['HTML/CSS']};
+    else if(/tailwind/.test(h)) fw={name:'Custom (Tailwind)',tags:['HTML/CSS']};
+    if(/gtag|googletagmanager|analytics\.js/.test(h)) fw.tags.push('GA/GTM');
+
+    // socials
+    var socials={};
+    [['facebook','facebook\\.com\\/[A-Za-z0-9_.\\-]+'],['instagram','instagram\\.com\\/[A-Za-z0-9_.\\-]+'],['linkedin','linkedin\\.com\\/(company|in|school)\\/[A-Za-z0-9_.\\-]+'],['youtube','youtube\\.com\\/(channel|c|user|@)?[A-Za-z0-9_.\\-@\\/]+'],['twitter','(twitter|x)\\.com\\/[A-Za-z0-9_]{2,}']].forEach(function(p){
+      var m=(html||'').match(new RegExp('https?:\\/\\/(www\\.)?'+p[1],'i')); if(m && !/sharer|share\\?|intent/.test(m[0])) socials[p[0]]=m[0];
     });
+
+    // contact
+    var mailA=q('a[href^="mailto:"]'); var telA=q('a[href^="tel:"]');
+    var email=mailA?mailA.getAttribute('href').replace('mailto:','').split('?')[0]:'';
+    var phone=telA?telA.getAttribute('href').replace('tel:',''):'';
+    if(!email){ var em=(html||'').match(/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/); if(em&&!/\.(png|jpg|jpeg|gif|svg|webp)$/i.test(em[0])) email=em[0]; }
+
+    // scores
+    var seo=0; if(title)seo+=18; if(desc)seo+=22; if(h1)seo+=15; if(canonical)seo+=15; if(ogImg)seo+=15; if(words>300)seo+=15; seo=Math.min(100,seo);
+    var ux=0; if(viewport)ux+=30; if(https)ux+=15; if(ogImg)ux+=15; if(fw.name!=='Custom / Unknown')ux+=15; if(imgs>3)ux+=13; if(links>10)ux+=12; ux=Math.min(100,ux);
+    var socN=Object.keys(socials).length;
+    var socScore=Math.min(100,socN*22 + (email?12:0) + (phone?10:0));
+    var overall=Math.round((seo*0.4+ux*0.35+socScore*0.25));
+
+    // strengths
+    var strengths=[];
+    if(https) strengths.push(['Secure HTTPS','Site is served over HTTPS — good for trust &amp; ranking.']);
+    if(title&&desc) strengths.push(['SEO basics in place','Has a page title and meta description.']);
+    if(viewport) strengths.push(['Mobile viewport set','Configured for responsive/mobile rendering.']);
+    if(fw.name!=='Custom / Unknown') strengths.push(['Recognisable stack','Built on '+fw.name+' — a known, supportable platform.']);
+    if(ogImg) strengths.push(['Social sharing ready','Open Graph image present for rich link previews.']);
+    if(socN>=2) strengths.push(['Active on social','Present on '+socN+' social channels.']);
+    if(!strengths.length) strengths.push(['Live &amp; reachable','The site is online and returned content for analysis.']);
+
+    // gaps
+    var gaps=[];
+    if(!desc) gaps.push(['Missing meta description','Weak SEO snippet','Search engines have no controlled summary to show — hurts click-through from Google.']);
+    if(!viewport) gaps.push(['No mobile viewport','Likely not mobile-friendly','Without a viewport tag the site probably doesn\'t adapt to phones — most traffic is mobile.']);
+    if(!h1) gaps.push(['No H1 heading','Weak on-page SEO','No primary heading for search engines to understand the page topic.']);
+    if(!canonical) gaps.push(['No canonical tag','Duplicate-content risk','Missing canonical URLs can split ranking signals across duplicate pages.']);
+    if(!https) gaps.push(['Not on HTTPS','Trust &amp; SEO penalty','Browsers flag non-HTTPS sites as "Not secure" and Google demotes them.']);
+    if(socN<3) gaps.push(['Thin social presence','Only '+socN+' channel(s) found','Limited social footprint means less reach, proof and retargeting audience.']);
+    if(!email&&!phone) gaps.push(['No clear contact on page','Lost leads','No visible email/phone link — visitors ready to buy can\'t reach out easily.']);
+    if(words<300) gaps.push(['Thin content','Little text to rank','Very little page copy — weak for SEO and for answering buyer questions.']);
+    if(/wix|squarespace|webflow|builder/i.test(fw.tags.join(' '))||/Wix|Squarespace/.test(fw.name)) gaps.push(['Template builder','Limited scalability','Built on a drag-drop builder — harder to add automation, portals or custom features.']);
+    if(!gaps.length) gaps.push(['Room to modernise','Always an upside','Even solid sites can gain from automation, CRM and conversion optimisation.']);
+
+    // opportunities (tailored)
+    var opps=[];
+    if(!desc||!h1||!canonical||!https||words<300) opps.push({t:'SEO &amp; technical optimisation',s:'Recover rankings and fix on-page issues',p:'high',why:'Fix the missing SEO fundamentals we detected and lift organic visibility.',inc:['Titles, meta descriptions &amp; canonical tags','H1/heading structure &amp; content depth','HTTPS &amp; Core Web Vitals fixes','XML sitemap &amp; indexing']});
+    if(!viewport||fw.name==='Custom / Unknown') opps.push({t:'Responsive / conversion redesign',s:'Modern, mobile-first, higher converting',p:'high',why:'Bring the front-end up to modern, mobile-first standards with clear CTAs.',inc:['Mobile-first responsive rebuild','Clear CTAs &amp; trust signals','Speed &amp; accessibility pass','Brand-consistent UI']});
+    opps.push({t:'Custom web app / automation',s:'Turn manual work into recurring value',p:'high',why:'Automate their core workflow (quotes, orders, bookings) to save staff time and lock in customers.',inc:['Customer portal / dashboard','Automated quote or booking flow','Order/status tracking','Integrations with their tools']});
+    if(socN<3||!email||!phone) opps.push({t:'AI chatbot + lead capture',s:'Answer &amp; capture leads 24/7',p:'med',why:'Recover leads currently lost when no one replies — round-the-clock answers and capture.',inc:['Chatbot trained on their FAQ','WhatsApp / live chat','Lead capture into CRM','Human handoff']});
+    if(socN<3) opps.push({t:'Social media setup &amp; management',s:'Build reach and credibility',p:'med',why:'Establish and grow the channels they\'re missing to build trust and audience.',inc:['Set up missing channels','Content calendar &amp; posting','Profile/branding consolidation','Community management']});
+    opps.push({t:'CRM + email marketing automation',s:'Monetise the existing audience',p:'med',why:'Lifecycle campaigns (follow-ups, re-orders, reviews) drive cheap repeat revenue.',inc:['CRM setup','Email automation flows','Re-engagement &amp; reviews','Reporting']});
+    opps.push({t:'Content, blog &amp; reputation',s:'Durable organic leads + proof',p:'med',why:'Publish SEO content and seed reviews to build authority and trust.',inc:['SEO blog engine','Keyword content plan','Google Business / Trustpilot','Review generation']});
+
+    return { url:url, domain:dom, fetched:!!html, title:title, desc:desc, favUrl:favUrl, fw:fw, https:https, viewport:viewport, h1:h1, canonical:canonical, ogImg:ogImg, imgs:imgs, links:links, words:words, socials:socials, email:email, phone:phone, seo:seo, ux:ux, socScore:socScore, overall:overall, strengths:strengths, gaps:gaps, opps:opps };
+  }
+
+  function fallbackData(url){
+    var dom=domainOf(url);
+    return { url:url, domain:dom, fetched:false, title:'', desc:'', favUrl:'https://www.google.com/s2/favicons?domain='+encodeURIComponent(dom)+'&sz=128',
+      fw:{name:'Not detected',tags:['—']}, https:/^https:/i.test(url), viewport:false,h1:false,canonical:false,ogImg:false,imgs:0,links:0,words:0,socials:{},email:'',phone:'',
+      seo:0,ux:0,socScore:0,overall:0,
+      strengths:[['Site is live','The domain resolves and is reachable.']],
+      gaps:[['Could not fetch page','Blocked or offline','We couldn\'t read the page (it may block automated access). A manual audit will confirm details.']],
+      opps:[{t:'Full digital audit',s:'Website, SEO, socials &amp; automation',p:'high',why:'A hands-on audit will surface exactly what to improve.',inc:['Website &amp; UX review','SEO &amp; performance audit','Social &amp; brand review','Automation opportunities']},
+            {t:'Website &amp; app development',s:'Build or rebuild the right way',p:'high',why:'VV Tech Sol can design and build a modern, conversion-focused site or app.',inc:['Custom design &amp; build','Mobile-first &amp; fast','CMS / portal','Integrations']}] };
+  }
+
+  // ---- RENDER ----
+  function scoreColor(n){ return n>=70?'var(--green)':n>=45?'var(--amber)':'var(--pink)'; }
+  function gaugeMetric(label,val,note){ return '<div class="metric"><div class="gauge" style="--p:'+val+';--c:'+scoreColor(val)+'"><b>'+val+'%</b></div><div class="mt"><h4>'+label+'</h4><p>'+note+'</p></div></div>'; }
+  function accItem(cfg){
+    var inc=cfg.inc?'<h4>What it includes</h4><ul>'+cfg.inc.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>':'';
+    var why=cfg.why?'<p>'+cfg.why+'</p>':(cfg.d?'<p>'+cfg.d+'</p>':'');
+    var rank=cfg.r?'<span class="rank">'+cfg.r+'</span>':'<span class="rank" style="background:rgba(236,72,153,0.16);color:var(--pink);">!</span>';
+    var prio=cfg.p?'<span class="prio '+cfg.p+'">'+(cfg.p==='high'?'High':'Medium')+'</span>':'';
+    return '<div class="item"><div class="bar">'+rank+'<div class="t"><h3>'+cfg.t+'</h3><div class="sub">'+cfg.s+'</div></div>'+prio+
+      '<span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="detail"><div class="in">'+why+inc+'</div></div></div>';
+  }
+
+  function render(d){
+    var name=d.domain.split('.')[0]; name=name.charAt(0).toUpperCase()+name.slice(1);
+    document.title='ReachScale Report — '+d.domain;
+    // target card
+    document.getElementById('sbTarget').innerHTML='<div class="row"><span class="fav"><img src="'+d.favUrl+'" alt="" onerror="this.style.display=\'none\'"></span><span><b>'+esc(name)+'</b><span class="u">'+esc(d.domain)+'</span></span></div><div class="scorebar"><span class="track"><span class="fill" style="width:'+d.overall+'%"></span></span><span class="val">'+d.overall+'</span></div>';
+    // summary
+    var verdict = d.overall>=70?'Strong digital presence':d.overall>=45?'Decent base, clear room to grow':'Under-built — big opportunity';
+    document.getElementById('sumHead').textContent = d.fetched? verdict : 'Limited analysis — page could not be fully read';
+    document.getElementById('sumSub').innerHTML = 'Live analysis of <b style="color:#fff">'+esc(d.domain)+'</b> across SEO, UX, tech &amp; social signals.';
+    var sc=document.getElementById('sumScore'); sc.style.background='conic-gradient('+scoreColor(d.overall)+' 0turn '+(d.overall/100)+'turn,rgba(255,255,255,0.08) '+(d.overall/100)+'turn 1turn)'; sc.innerHTML='<b>'+d.overall+'</b>';
+    document.getElementById('sumScoreNote').textContent='SEO '+d.seo+'% · UX '+d.ux+'% · Social '+d.socScore+'%. Higher opportunity where scores are low.';
+    var socN=Object.keys(d.socials).length;
+    document.getElementById('statsGrid').innerHTML=[
+      ['grad-text',d.https?'HTTPS':'HTTP','Security'],
+      ['grad-text',d.fw.name,'Framework'],
+      ['grad-text',socN,'Social channels'],
+      ['grad-text',d.imgs,'Images on page'],
+      ['grad-text',d.words>999?(Math.round(d.words/100)/10)+'k':d.words,'Words of content'],
+      ['grad-text',d.links,'Links'],
+      ['grad-text',(d.viewport?'Yes':'No'),'Mobile viewport'],
+      ['grad-text',d.opps.length,'Services to pitch']
+    ].map(function(s){ return '<div class="stat"><div class="n '+s[0]+'">'+s[1]+'</div><div class="l">'+s[2]+'</div></div>'; }).join('');
+    document.getElementById('sumSide').innerHTML =
+      gaugeMetric('UI / UX strength',d.ux,'Based on mobile-readiness, HTTPS, stack &amp; media.') +
+      gaugeMetric('SEO score',d.seo,'Title, description, headings, canonical &amp; content.') +
+      '<div class="fwbox"><span class="fwic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="lbl">Built with</div><b>'+d.fw.name+'</b><div class="chips">'+d.fw.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div></div></div>';
+    // overview
+    document.getElementById('ovKV').innerHTML=[
+      ['Website',esc(d.domain)],
+      ['Page title',esc(d.title||'—')],
+      ['Description',esc(d.desc||'Not found')],
+      ['Framework',d.fw.name+' <span style="color:var(--muted)">('+d.fw.tags.join(', ')+')</span>'],
+      ['Content size',d.words+' words · '+d.imgs+' images · '+d.links+' links'],
+      ['Security',d.https?'HTTPS (secure)':'HTTP (not secure)']
+    ].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';}).join('');
+    // presence
+    document.getElementById('presKV').innerHTML=[
+      ['Platform / tech','<b>'+d.fw.name+'</b> — '+d.fw.tags.join(', ')],
+      ['Mobile ready',d.viewport?'Yes — viewport configured':'<b style="color:var(--pink)">No viewport tag detected</b>'],
+      ['SEO tags','Title '+(d.title?'✓':'✗')+' · Description '+(d.desc?'✓':'✗')+' · H1 '+(d.h1?'✓':'✗')+' · Canonical '+(d.canonical?'✓':'✗')+' · OG image '+(d.ogImg?'✓':'✗')],
+      ['Contact',(d.email?esc(d.email):'no email')+(d.phone?' · '+esc(d.phone):'')],
+      ['Social',socN?Object.keys(d.socials).join(', '):'<b style="color:var(--pink)">none detected</b>']
+    ].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';}).join('');
+    // contact
+    var socDefs=[['facebook','Facebook','#4A9BFF'],['instagram','Instagram','#EC4899'],['linkedin','LinkedIn','#3AA0FF'],['youtube','YouTube','#FF4D4D'],['twitter','X / Twitter','#8899A6']];
+    var socHtml=socDefs.map(function(s){
+      if(d.socials[s[0]]) return '<a class="socbtn" href="'+d.socials[s[0]]+'" target="_blank" rel="noopener"><span class="sic" style="color:'+s[2]+'">'+ICON_WEB+'</span> '+s[1]+'</a>';
+      return '<span class="socbtn off"><span class="sic">'+ICON_WEB+'</span> '+s[1]+' <span class="tagno">· not found</span></span>';
+    }).join('');
+    document.getElementById('contactWrap').innerHTML=
+      '<div class="contact-grid">'+
+      (d.phone?'<div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.6 2.6.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="clbl">Phone</div><a href="tel:'+esc(d.phone)+'">'+esc(d.phone)+'</a></div></div>':'')+
+      (d.email?'<div class="ccard"><span class="cic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 7l10 6 10-6" stroke="currentColor" stroke-width="2"/></svg></span><div><div class="clbl">Email</div><a href="mailto:'+esc(d.email)+'">'+esc(d.email)+'</a></div></div>':'')+
+      '<div class="ccard"><span class="cic">'+ICON_WEB+'</span><div><div class="clbl">Website</div><a href="'+d.url+'" target="_blank" rel="noopener">'+esc(d.domain)+'</a></div></div>'+
+      '</div>'+
+      (!d.phone&&!d.email?'<p class="disclaimer">No email or phone link was found on the homepage — a real gap (visitors can\'t reach out). See Opportunities.</p>':'')+
+      '<div class="prop-h">Social media</div><div class="socrow">'+socHtml+'</div>';
+    // strengths
+    document.getElementById('strList').innerHTML=d.strengths.map(function(s){return '<li><span class="mk ok">✓</span><span><b>'+s[0]+'</b> — '+s[1]+'</span></li>';}).join('');
+    // gaps
+    document.getElementById('gapsAcc').innerHTML=d.gaps.map(function(g){return accItem({t:g[0],s:g[1],d:g[2]});}).join('');
+    // opportunities
+    document.getElementById('oppAcc').innerHTML=d.opps.map(function(o,i){o.r=i+1;return accItem(o);}).join('');
+    document.getElementById('ctaP').innerHTML='For <b style="color:#fff">'+esc(d.domain)+'</b>: lead with the high-priority items above, then upsell automation, CRM &amp; social. VV Tech Sol can deliver all of it.';
+    // badges
+    document.getElementById('bStr').textContent=d.strengths.length;
+    document.getElementById('bGap').textContent=d.gaps.length;
+    document.getElementById('bOpp').textContent=d.opps.length;
+    // proposal head
+    document.getElementById('propHead').textContent='Proposal for '+name;
+    proposalDone=false; var pg=document.getElementById('proposalGen'),pb=document.getElementById('proposalBody'); if(pg)pg.style.display=''; if(pb){pb.style.display='none';pb.innerHTML='';}
+  }
+
+  // ---- TABS ----
+  var navbtns=document.querySelectorAll('.navbtn'), panels=document.querySelectorAll('.panel'), crumb=document.getElementById('crumbTitle');
+  function showTab(tab,label){
+    navbtns.forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
+    panels.forEach(function(p){p.classList.toggle('active',p.dataset.tab===tab);});
+    if(label)crumb.textContent=label;
+    document.querySelector('.content').scrollIntoView({block:'start'});
+    if(tab==='proposal')genProposal();
+    if(tab==='history')renderHistory();
+  }
+  navbtns.forEach(function(b){b.addEventListener('click',function(){showTab(b.dataset.tab,b.textContent.replace(/\d+$/,'').trim());});});
+  document.querySelector('.acc,#gapsAcc');
+  document.addEventListener('click',function(e){var bar=e.target.closest('.acc .bar');if(bar)bar.parentElement.classList.toggle('open');});
+
+  // ---- PROPOSAL ----
+  var proposalDone=false;
+  function proposalHTML(){
+    var d=A.data||{}; var name=(d.domain||'the company'); var nm=name.split('.')[0]; nm=nm.charAt(0).toUpperCase()+nm.slice(1);
+    var phase1=[], out1=[];
+    var seoNeeded=d.opps&&d.opps.some(function(o){return /SEO/.test(o.t);});
+    var redesign=d.opps&&d.opps.some(function(o){return /redesign/i.test(o.t);});
+    return {nm:nm};
+  }
+  function genProposal(){
+    if(proposalDone)return; proposalDone=true;
+    var d=A.data||{}; var nm=(d.domain||'company').split('.')[0]; nm=nm.charAt(0).toUpperCase()+nm.slice(1);
+    var gen=document.getElementById('proposalGen'), body=document.getElementById('proposalBody');
+    var high=(d.opps||[]).filter(function(o){return o.p==='high';});
+    var wedge=high.slice(0,3).map(function(o){return o.t.replace(/&amp;/g,'&');}).join(', ')||'website, SEO & automation';
+    setTimeout(function(){
+      if(gen)gen.style.display='none';
+      if(body){
+        body.innerHTML=
+        '<div class="prop-intro"><div class="from">Prepared by <b>VV Tech Sol</b> · for <b>'+esc(nm)+'</b> · '+dateStr()+'</div>'+
+        'Based on our live analysis of <b>'+esc(d.domain||'')+'</b> (digital-maturity score '+ (d.overall||0) +'/100), VV Tech Sol proposes a phased program to close the gaps we found and turn this site into a stronger, higher-converting, better-ranked asset — built efficiently on top of what already exists.</div>'+
+        '<div class="prop-h">Recommended scope</div>'+
+        (d.opps||[]).slice(0,5).map(function(o,i){return '<div class="phase"><div class="ph-top"><span class="tag">Step '+(i+1)+'</span><h3>'+o.t+'</h3><span class="when">'+(o.p==='high'?'Priority':'Phase 2')+'</span></div><ul>'+(o.inc||[]).map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul><div class="out">→ '+o.why+'</div></div>';}).join('')+
+        '<div class="prop-h">Why VV Tech Sol</div><div class="whyus"><div><b>Full-stack web &amp; custom software</b> — sites, portals &amp; apps built to scale.</div><div><b>AI automation &amp; chatbots</b> — 24/7 support, instant quotes &amp; lead capture.</div><div><b>SEO, content &amp; paid growth</b> — visibility and high-intent traffic.</div><div><b>Design + social under one roof</b> — one partner, one brand.</div></div>'+
+        '<div class="prop-h">Indicative investment</div><table class="prop-table" style="width:100%;border-collapse:collapse;"><tr><td style="padding:14px 16px;border-bottom:1px solid var(--line)">Priority fixes (SEO / UX quick wins)</td><td style="padding:14px 16px;border-bottom:1px solid var(--line);text-align:right;font-weight:800;color:#fff">from $1,200</td></tr><tr><td style="padding:14px 16px;border-bottom:1px solid var(--line)">Custom build (portal / app / redesign)</td><td style="padding:14px 16px;border-bottom:1px solid var(--line);text-align:right;font-weight:800;color:#fff">from $3,500</td></tr><tr><td style="padding:14px 16px">Growth retainer (SEO / social / ads)</td><td style="padding:14px 16px;text-align:right;font-weight:800;color:#fff">from $800 / mo</td></tr></table><p class="disclaimer">Indicative ranges — final scope &amp; quote confirmed after a short discovery call. Focus wedge: '+esc(wedge)+'.</p>'+
+        '<div class="cta"><h3>Let\'s turn this analysis into a win.</h3><p>Download this proposal as a Word doc and send it to '+esc(nm)+', or book a call with VV Tech Sol.</p><div class="row"><button class="btn btn-grad" type="button" onclick="downloadProposal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download proposal (Word)</button><button class="btn btn-ghost" type="button" onclick="exportPDF()">Export full report (PDF)</button></div></div>';
+        body.style.display='block';
+      }
+    },1200);
+  }
+  function dateStr(){ try{ var d=new Date(); return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear(); }catch(e){ return ''; } }
+
+  function downloadProposal(){
+    var d=A.data||{}; var nm=(d.domain||'company').split('.')[0]; nm=nm.charAt(0).toUpperCase()+nm.slice(1);
+    var oppHtml=(d.opps||[]).slice(0,6).map(function(o){return '<h3>'+o.t.replace(/&amp;/g,'&')+'</h3><p><i>'+o.why.replace(/&amp;/g,'&')+'</i></p><ul>'+(o.inc||[]).map(function(x){return '<li>'+x.replace(/&amp;/g,'&')+'</li>';}).join('')+'</ul>';}).join('');
+    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Proposal - '+nm+'</title></head><body style="font-family:Calibri,Arial,sans-serif;color:#1a1a1a;font-size:11pt;">'+
+    '<h1 style="color:#6d28d9;margin-bottom:0;">Proposal for '+nm+'</h1>'+
+    '<p style="color:#666;margin-top:4px;">Prepared by <b>VV Tech Sol</b> &middot; '+dateStr()+' &middot; '+(d.domain||'')+'</p>'+
+    '<p>Based on our live analysis of '+(d.domain||'')+' (digital-maturity score '+(d.overall||0)+'/100), VV Tech Sol proposes a program to close the gaps found and turn this site into a stronger, higher-converting, better-ranked asset.</p>'+
+    '<h2 style="color:#4c1d95;">Recommended scope</h2>'+oppHtml+
+    '<h2 style="color:#4c1d95;">Why VV Tech Sol</h2><ul><li>Full-stack web &amp; custom software.</li><li>AI automation &amp; chatbots.</li><li>SEO, content &amp; paid growth.</li><li>Design + social under one roof.</li></ul>'+
+    '<h2 style="color:#4c1d95;">Indicative investment</h2><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><tr><td>Priority fixes (SEO / UX quick wins)</td><td align="right"><b>from $1,200</b></td></tr><tr><td>Custom build (portal / app / redesign)</td><td align="right"><b>from $3,500</b></td></tr><tr><td>Growth retainer</td><td align="right"><b>from $800 / mo</b></td></tr></table>'+
+    '<p style="color:#777;font-size:9pt;">Indicative ranges — final scope &amp; quote after a discovery call.</p><hr><p><b>VV Tech Sol</b> &middot; hello@vvtechsol.com &middot; vvtechsol.com</p></body></html>';
+    var blob=new Blob(['﻿',html],{type:'application/msword'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nm+'-Proposal.doc'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('✓ Proposal downloaded (Word)');
+  }
+
+  // ---- EXPORT PDF ----
+  function exportPDF(){
+    if(typeof html2pdf==='undefined'){ window.print(); return; }
+    document.body.classList.add('exporting'); toast('Generating PDF…');
+    var opt={margin:[6,6,8,6],filename:(A.data?A.data.domain:'reachscale')+'-report.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,backgroundColor:'#0B0B14',useCORS:true},pagebreak:{mode:['css','legacy']},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+    html2pdf().set(opt).from(document.querySelector('.content')).save().then(function(){document.body.classList.remove('exporting');toast('✓ PDF downloaded');}).catch(function(){document.body.classList.remove('exporting');window.print();});
+  }
+
+  // ---- SHARE + TOAST ----
+  var toastEl=document.createElement('div'); toastEl.className='toast'; document.body.appendChild(toastEl);
+  function toast(m){ toastEl.textContent=m; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t=setTimeout(function(){toastEl.classList.remove('show');},2600); }
+  document.getElementById('shareBtn').addEventListener('click',function(){
+    var url=location.href;
+    if(navigator.share){navigator.share({title:'ReachScale report — '+(A.data?A.data.domain:''),url:url}).catch(function(){});return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){toast('✓ Report link copied — send it to your client');},function(){toast(url);});}else{toast(url);}
   });
 
-  // SHARE + TOAST
-  var toastEl = document.createElement('div'); toastEl.className = 'toast'; document.body.appendChild(toastEl);
-  function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t = setTimeout(function(){ toastEl.classList.remove('show'); }, 2800); }
-  var shareBtn = document.getElementById('shareBtn');
-  if (shareBtn){
-    shareBtn.addEventListener('click', function(){
-      var url = location.href.split('?')[0];
-      if (navigator.share){ navigator.share({ title:'ReachScale report — 1DollarDigitizing', text:'Website analysis & proposal', url:url }).catch(function(){}); return; }
-      if (navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(url).then(function(){ toast('✓ Report link copied — send it to your client'); }, function(){ toast(url); });
-      } else { toast(url); }
-    });
+  // ---- HISTORY ----
+  var HKEY='reachscale_history';
+  function loadHist(){ try{return JSON.parse(localStorage.getItem(HKEY)||'[]');}catch(e){return [];} }
+  function saveHist(url){ var h=loadHist().filter(function(x){return x.url!==url;}); h.unshift({url:url,t:Date.now()}); h=h.slice(0,12); try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){} }
+  function timeAgo(t){ var s=Math.floor((Date.now()-t)/1000); if(s<60)return'just now'; var m=Math.floor(s/60); if(m<60)return m+'m ago'; var hh=Math.floor(m/60); if(hh<24)return hh+'h ago'; return Math.floor(hh/24)+'d ago'; }
+  function renderHistory(){
+    var el=document.getElementById('histList'); var h=loadHist();
+    if(!h.length){ el.innerHTML='<p class="hempty">No searches yet. Analyze a URL from the home page.</p>'; return; }
+    el.innerHTML=h.map(function(x){ return '<a class="hitem" href="report.html?url='+encodeURIComponent(x.url)+'"><span class="hic">'+ICON_WEB+'</span><span class="hu">'+esc(domainOf(x.url))+'</span><span class="ht">'+timeAgo(x.t)+'</span><span class="hgo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>'; }).join('');
   }
+
+  // ---- BOOT ----
+  var LOAD_STEPS=['Connecting to the website','Reading pages, meta &amp; tech','Detecting framework, SEO &amp; socials','Scoring &amp; drafting recommendations'];
+  function showLoader(url){
+    var l=document.getElementById('loader'); document.getElementById('loadUrl').textContent=url;
+    document.getElementById('loadSteps').innerHTML=LOAD_STEPS.map(function(s,i){return '<div class="ls" data-i="'+i+'"><span class="d"></span>'+s+'</div>';}).join('');
+    l.classList.add('show');
+    var els=document.querySelectorAll('#loadSteps .ls'); els.forEach(function(e,i){ setTimeout(function(){e.classList.add('on');}, i*450); });
+  }
+  function hideLoader(){ document.getElementById('loader').classList.remove('show'); }
+
+  (function boot(){
+    var raw=qp.get('url'); var url=normalize(raw||'');
+    if(!url){ // no url — send back to search
+      document.getElementById('sumHead').textContent='No URL provided';
+      document.getElementById('sumSub').innerHTML='Go to the <a href="index.html" style="color:var(--cyan)">search page</a> and enter a website or profile URL.';
+      renderHistory(); return;
+    }
+    saveHist(url); showLoader(url);
+    var minDelay=new Promise(function(r){setTimeout(r,1500);});
+    Promise.all([ fetchHTML(url), minDelay ]).then(function(res){
+      var html=res[0];
+      A.data = html ? analyze(url,html) : fallbackData(url);
+      render(A.data);
+      renderHistory();
+      hideLoader();
+      if(!html) toast('Could not fully read the site — showing a limited analysis.');
+    });
+  })();
 </script>
 </html>
