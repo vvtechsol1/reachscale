@@ -646,8 +646,12 @@
       '.cta{background:#2c1b45;color:#fff;padding:28px 48px;text-align:center}.cta h3{margin:0 0 6px;font-size:19px}.cta p{opacity:.85;margin:0 0 4px;font-size:13.5px}'+
       '.cta .contact{margin-top:12px;font-size:13px;opacity:.95}.cta a{color:#e9b8dd;text-decoration:none}'+
       '.disc{font-size:11px;color:#93849f;margin-top:8px}'+
-      '@media print{body{background:#fff}.wrap{box-shadow:none;max-width:none}.sec{page-break-inside:avoid}.step,.gap{page-break-inside:avoid}}'+
-      '</style></head><body><div class="wrap">'+
+      '.pbar{position:sticky;top:0;z-index:10;background:#2c1b45;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}'+
+      '.pbar span{font-size:13px;opacity:.85}.pbar button{background:#fff;color:#2c1b45;border:0;border-radius:8px;padding:9px 16px;font-weight:800;cursor:pointer;font-size:13px}'+
+      '@media print{body{background:#fff}.wrap{box-shadow:none;max-width:none}.sec{page-break-inside:avoid}.step,.gap{page-break-inside:avoid}.noprint{display:none!important}}'+
+      '</style></head><body>'+
+      '<div class="pbar noprint"><span>Proposal for '+esc(nm)+' — save it as a PDF to send your client</span><button type="button" onclick="window.print()">⬇ Download PDF</button></div>'+
+      '<div class="wrap">'+
       '<div class="cover"><div class="brand">VV Tech Sol · Digital Growth Proposal</div>'+
         '<h1>'+esc(nm)+'</h1><div class="sub">A plan to close the gaps on '+esc(dom)+' and turn it into a higher-converting, better-ranked asset.</div>'+
         '<div class="meta"><span>Prepared for <b>'+esc(nm)+'</b></span><span>'+dateStr()+'</span><span>'+esc(dom)+'</span><span>Digital-maturity score: <b>'+score+'/100</b></span></div></div>'+
