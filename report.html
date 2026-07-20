@@ -59,7 +59,7 @@
   .topbar .crumb{font-size:13.5px;color:var(--muted);}
   .topbar .crumb b{color:var(--text);}
   .topbar .actions{display:flex;gap:9px;}
-  .content{padding:34px 30px 60px;max-width:900px;}
+  .content{padding:34px 30px 60px;max-width:1140px;}
   .panel{display:none;animation:fade .35s var(--ease);}
   .panel.active{display:block;}
   @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
@@ -80,6 +80,30 @@
   .stat .n{font-size:20px;font-weight:850;letter-spacing:-0.02em;}
   .stat .l{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35;}
   @media(max-width:640px){.stats{grid-template-columns:1fr 1fr;}}
+
+  /* SUMMARY 2-COL + METRIC BOXES */
+  .sum-grid{display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start;}
+  .sum-side{display:grid;gap:14px;}
+  @media(max-width:980px){.sum-grid{grid-template-columns:1fr;}}
+  .detected{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;}
+  .detected .lbl{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;}
+  .detected .logowrap{background:#fff;border-radius:10px;height:70px;display:grid;place-items:center;padding:8px;margin:10px 0 12px;}
+  .detected .logo{max-height:100%;max-width:100%;object-fit:contain;}
+  .detected .lfallback{font-weight:850;font-size:24px;color:#111;}
+  .detected b{display:block;font-size:15px;}
+  .detected .u{font-family:var(--mono);font-size:11px;color:var(--cyan);margin-top:2px;}
+  .metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:15px;align-items:center;}
+  .gauge{flex:none;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,0.08) 0);}
+  .gauge::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--panel);}
+  .gauge b{position:relative;font-size:17px;font-weight:850;}
+  .metric .mt h4{font-size:14px;font-weight:750;margin-bottom:3px;}
+  .metric .mt p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.4;}
+  .fwbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;}
+  .fwbox .fwic{width:46px;height:46px;border-radius:11px;background:rgba(236,72,153,0.14);color:var(--pink);display:grid;place-items:center;flex:none;}
+  .fwbox .lbl{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);font-weight:700;}
+  .fwbox b{font-size:20px;font-weight:850;display:block;margin:2px 0 7px;}
+  .fwbox .chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .fwbox .chips span{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,0.06);color:var(--muted);}
 
   /* KV */
   .kv{display:grid;grid-template-columns:170px 1fr;gap:14px 20px;font-size:14.5px;}
@@ -172,6 +196,20 @@
     .stats{grid-template-columns:1fr 1fr;}
   }
   :focus-visible{outline:2px solid var(--v);outline-offset:2px;border-radius:6px;}
+
+  /* PRINT / EXPORT PDF — show the whole report */
+  @media print{
+    .sidebar,.topbar{display:none!important;}
+    .app{display:block;}
+    .content{max-width:none;padding:16px 22px;}
+    .panel{display:block!important;margin-bottom:26px;page-break-inside:auto;}
+    .phead{page-break-after:avoid;}
+    .item .detail{max-height:none!important;}
+    #proposalGen{display:none!important;}
+    #proposalBody{display:block!important;}
+    html,body{background:var(--bg);}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
 </style>
 
 <div class="app">
@@ -181,7 +219,7 @@
 
     <div class="sb-target">
       <div class="row">
-        <span class="fav" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg></span>
+        <span class="fav"><img src="https://1dollardigitizing.com/images/logo.png" alt="" onerror="this.onerror=null;this.src='https://www.google.com/s2/favicons?domain=1dollardigitizing.com&sz=64'" style="width:100%;height:100%;object-fit:contain;border-radius:6px;background:#fff;padding:3px;"></span>
         <span><b>1DollarDigitizing</b><span class="u">1dollardigitizing.com</span></span>
       </div>
       <div class="scorebar"><span class="track"><span class="fill"></span></span><span class="val">62</span></div>
@@ -221,6 +259,8 @@
       <!-- SUMMARY -->
       <section class="panel active" data-tab="summary">
         <div class="phead"><div class="eye">Snapshot</div><h1>Solid product, under-built digital operation</h1><p>Fast modern backend and clear pricing — held back by fragmented SEO/social, no automation and no customer portal. A high-value client opportunity.</p></div>
+        <div class="sum-grid">
+        <div class="sum-main">
         <div class="verdict">
           <div class="score"><b>62</b></div>
           <div><h3>Overall digital-maturity score</h3><p>Strong on product &amp; pricing · weak on automation, SEO consolidation, social &amp; retention tooling.</p></div>
@@ -234,6 +274,19 @@
           <div class="stat"><div class="n grad-text">~1.8s</div><div class="l">Homepage load (Laravel + LiteSpeed)</div></div>
           <div class="stat"><div class="n grad-text">0</div><div class="l">Third-party reviews found</div></div>
           <div class="stat"><div class="n grad-text">8</div><div class="l">Services we can pitch</div></div>
+        </div>
+        </div>
+        <aside class="sum-side">
+          <div class="detected">
+            <div class="lbl">Detected logo</div>
+            <div class="logowrap"><img class="logo" src="https://1dollardigitizing.com/images/logo.png" alt="1DollarDigitizing logo" onerror="this.onerror=null;this.src='https://www.google.com/s2/favicons?domain=1dollardigitizing.com&sz=128'"></div>
+            <b>1DollarDigitizing</b>
+            <div class="u">1dollardigitizing.com</div>
+          </div>
+          <div class="metric"><div class="gauge" style="--p:66;--c:var(--v)"><b>66%</b></div><div class="mt"><h4>UI / UX strength</h4><p>Clear &amp; fast, but dated design and inconsistent routing.</p></div></div>
+          <div class="metric"><div class="gauge" style="--p:42;--c:var(--amber)"><b>42%</b></div><div class="mt"><h4>SEO score</h4><p>Hurt by legacy .php pages, duplicate blog &amp; 404s.</p></div></div>
+          <div class="fwbox"><span class="fwic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="lbl">Built with</div><b>Laravel</b><div class="chips"><span>PHP 8.5</span><span>LiteSpeed</span><span>GTM</span></div></div></div>
+        </aside>
         </div>
       </section>
 
