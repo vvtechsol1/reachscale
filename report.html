@@ -286,6 +286,8 @@
 <script>
   var qp=new URLSearchParams(location.search);
   var A={};
+  // AI backend (Cloudflare Worker) URL — connect once via ?api=<workerURL>, saved in the browser.
+  var AI_WORKER=(function(){ try{ var q=qp.get('api'); if(q){ localStorage.setItem('reachscale_worker', q.trim()); return q.trim(); } return (localStorage.getItem('reachscale_worker')||'').trim(); }catch(e){ return ''; } })();
   var ICON_WEB='<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg>';
 
   function normalize(u){ u=(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u='https://'+u; return u; }
@@ -408,6 +410,28 @@
       gaps:[['Could not fetch page','Blocked or offline','We couldn\'t read the page (it may block automated access). A manual audit will confirm details.']],
       opps:[{t:'Full digital audit',s:'Website, SEO, socials &amp; automation',p:'high',why:'A hands-on audit will surface exactly what to improve.',inc:['Website &amp; UX review','SEO &amp; performance audit','Social &amp; brand review','Automation opportunities']},
             {t:'Website &amp; app development',s:'Build or rebuild the right way',p:'high',why:'VV Tech Sol can design and build a modern, conversion-focused site or app.',inc:['Custom design &amp; build','Mobile-first &amp; fast','CMS / portal','Integrations']}] };
+  }
+
+  // ---- map AI backend JSON -> render data ----
+  function aiToData(url, ai){
+    var dom=ai.domain||domainOf(url);
+    var socials={};
+    ['facebook','instagram','linkedin','youtube','twitter'].forEach(function(k){ if(ai.socials && ai.socials[k]) socials[k]=ai.socials[k]; });
+    var socN=Object.keys(socials).length;
+    return {
+      url:url, domain:dom, fetched:true,
+      title:ai.page_title||ai.company_name||'', desc:ai.meta_description||ai.overview||'',
+      favUrl:'https://www.google.com/s2/favicons?domain='+encodeURIComponent(dom)+'&sz=128',
+      fw:{name:ai.framework||'Unknown', tags:(ai.tech_tags&&ai.tech_tags.length?ai.tech_tags:['—'])},
+      https:!!ai.on_https, viewport:!!ai.mobile_friendly, h1:!!ai.has_h1, canonical:!!ai.has_canonical, ogImg:!!ai.has_og_image,
+      imgs:ai.images_count||0, links:ai.links_count||0, words:ai.word_count||0,
+      socials:socials, email:(ai.contact&&ai.contact.email)||'', phone:(ai.contact&&ai.contact.phone)||'', address:(ai.contact&&ai.contact.address)||'',
+      seo:ai.seo_score||0, ux:ai.ux_score||0, socScore:Math.min(100,socN*22+((ai.contact&&ai.contact.email)?12:0)+((ai.contact&&ai.contact.phone)?10:0)),
+      overall:ai.overall_score||0,
+      strengths:(ai.strengths||[]).map(function(s){return [s.title,s.detail];}),
+      gaps:(ai.gaps||[]).map(function(g){return [g.title,g.sub,g.detail];}),
+      opps:(ai.opportunities||[]).map(function(o){return {t:o.title,s:o.sub,p:(/high/i.test(o.priority||'')?'high':'med'),why:o.why,inc:o.includes||[]};})
+    };
   }
 
   // ---- RENDER ----
@@ -604,6 +628,25 @@
       renderHistory(); return;
     }
     saveHist(url); showLoader(url);
+    // --- AI backend path (if a Cloudflare Worker is connected) ---
+    if(AI_WORKER){
+      Promise.all([
+        fetch(AI_WORKER+'?url='+encodeURIComponent(url)).then(function(r){return r.json();}),
+        new Promise(function(r){setTimeout(r,1200);})
+      ]).then(function(res){
+        var ai=res[0];
+        if(!ai || ai.error || ai.overall_score==null) throw new Error((ai&&ai.error)||'bad response');
+        A.data=aiToData(url,ai); render(A.data); renderHistory(); hideLoader();
+        toast('✓ AI analysis complete');
+      }).catch(function(){
+        fetchHTML(url).then(function(html){
+          A.data=html?analyze(url,html):fallbackData(url); render(A.data); renderHistory(); hideLoader();
+          toast('AI backend unreachable — showing heuristic analysis.');
+        });
+      });
+      return;
+    }
+    // --- heuristic path (no AI backend) ---
     var minDelay=new Promise(function(r){setTimeout(r,1500);});
     Promise.all([ fetchHTML(url), minDelay ]).then(function(res){
       var html=res[0];
