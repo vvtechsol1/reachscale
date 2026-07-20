@@ -197,19 +197,31 @@
   }
   :focus-visible{outline:2px solid var(--v);outline-offset:2px;border-radius:6px;}
 
-  /* PRINT / EXPORT PDF — show the whole report */
+  /* PRINT / EXPORT PDF — full report, forced LIGHT so it's always readable */
   @media print{
-    .sidebar,.topbar{display:none!important;}
+    .sidebar,.topbar,.toast{display:none!important;}
     .app{display:block;}
-    .content{max-width:none;padding:16px 22px;}
-    .panel{display:block!important;margin-bottom:26px;page-break-inside:auto;}
+    .content{max-width:none;padding:8px 16px;}
+    html,body{background:#fff!important;color:#14141F!important;}
+    .panel{display:block!important;margin-bottom:22px;page-break-inside:auto;}
     .phead{page-break-after:avoid;}
+    .phead .eye{color:#7C3AED!important;}
+    h1,h2,h3,h4,.stat .n,.gauge b,.verdict .score b,dd b,ul.list li b,.phase h3,.fwbox b{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important;}
+    p,dt,dd,.l,.sub,.mt p,.metric .mt p,.disclaimer,.prop-note,.detected .u{color:#333!important;}
+    .verdict,.stat,.metric,.fwbox,.item,.phase,.prop-intro,.whyus div,.prop-table,.cta,.detected,ul.list li{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;}
+    .cta::before,.rhead::before{display:none!important;}
     .item .detail{max-height:none!important;}
-    #proposalGen{display:none!important;}
-    #proposalBody{display:block!important;}
-    html,body{background:var(--bg);}
+    .item .detail .in{border-top:1px solid #ddd;}
+    #proposalGen{display:none!important;} #proposalBody{display:block!important;}
+    .sum-grid{grid-template-columns:1fr 1fr!important;}
+    .gauge{background:#eee!important;} .gauge::before{background:#fff!important;} .gauge b{color:#111!important;-webkit-text-fill-color:#111!important;}
+    a{color:#111!important;}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
+
+  /* TOAST */
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--panel-2);border:1px solid var(--line-2);color:var(--text);padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 20px 50px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);z-index:100;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 
 <div class="app">
@@ -250,8 +262,9 @@
         <span class="crumb">Report · <b id="crumbTitle">Summary</b></span>
       </div>
       <div class="actions">
-        <button class="btn btn-ghost" type="button" onclick="window.print()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Export</button>
-        <button class="btn btn-grad" type="button" onclick="showTab('proposal','Proposal')">Generate proposal →</button>
+        <button class="btn btn-ghost" type="button" onclick="window.print()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Export PDF</button>
+        <button class="btn btn-ghost" type="button" id="shareBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 8a3 3 0 10-2.8-4M6 12a3 3 0 100 0M18 16a3 3 0 10-2.8 4M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Share</button>
+        <button class="btn btn-grad" type="button" onclick="showTab('proposal','Proposal')">Proposal →</button>
       </div>
     </div>
 
@@ -479,5 +492,19 @@
       bar.parentElement.classList.toggle('open');
     });
   });
+
+  // SHARE + TOAST
+  var toastEl = document.createElement('div'); toastEl.className = 'toast'; document.body.appendChild(toastEl);
+  function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t = setTimeout(function(){ toastEl.classList.remove('show'); }, 2800); }
+  var shareBtn = document.getElementById('shareBtn');
+  if (shareBtn){
+    shareBtn.addEventListener('click', function(){
+      var url = location.href.split('?')[0];
+      if (navigator.share){ navigator.share({ title:'ReachScale report — 1DollarDigitizing', text:'Website analysis & proposal', url:url }).catch(function(){}); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){ toast('✓ Report link copied — send it to your client'); }, function(){ toast(url); });
+      } else { toast(url); }
+    });
+  }
 </script>
 </html>
