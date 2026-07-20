@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>ReachScale Report</title>
 <style>
   :root{
@@ -286,8 +280,9 @@
 <script>
   var qp=new URLSearchParams(location.search);
   var A={};
-  // AI backend (Cloudflare Worker) URL — connect once via ?api=<workerURL>, saved in the browser.
-  var AI_WORKER=(function(){ try{ var q=qp.get('api'); if(q){ localStorage.setItem('reachscale_worker', q.trim()); return q.trim(); } return (localStorage.getItem('reachscale_worker')||'').trim(); }catch(e){ return ''; } })();
+  // AI backend (Cloudflare Worker, free Workers AI). Default is live; ?api= can override.
+  var DEFAULT_WORKER='https://reachscale.vvtechsol1.workers.dev';
+  var AI_WORKER=(function(){ try{ var q=qp.get('api'); if(q){ localStorage.setItem('reachscale_worker', q.trim()); return q.trim(); } return (localStorage.getItem('reachscale_worker')||DEFAULT_WORKER).trim(); }catch(e){ return DEFAULT_WORKER; } })();
   var ICON_WEB='<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="2"/></svg>';
 
   function normalize(u){ u=(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u='https://'+u; return u; }
@@ -658,4 +653,3 @@
     });
   })();
 </script>
-</html>
