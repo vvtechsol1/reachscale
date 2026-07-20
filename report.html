@@ -43,6 +43,7 @@
   .sb-target .scorebar .track{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden;}
   .sb-target .scorebar .fill{height:100%;width:62%;background:linear-gradient(90deg,var(--amber),var(--green));}
   .sb-target .scorebar .val{font-size:12px;font-weight:800;color:var(--text);}
+  .sb-nav{display:contents;}
   .sb-grouplabel{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);font-weight:700;padding:14px 10px 6px;}
   .navbtn{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:10px;text-align:left;transition:background .18s,color .18s;position:relative;}
   .navbtn .ic{width:18px;height:18px;flex:none;display:grid;place-items:center;}
@@ -155,15 +156,20 @@
 
   /* MOBILE */
   .menutoggle{display:none;}
+  .scrim{display:none;}
   @media(max-width:860px){
     .app{grid-template-columns:1fr;}
-    .sidebar{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:50;transform:translateX(-100%);transition:transform .25s var(--ease);}
-    .sidebar.open{transform:none;}
-    .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:40;}
-    .scrim.show{display:block;}
-    .menutoggle{display:inline-flex;}
-    .content{padding:26px 18px 50px;}
-    .topbar{padding:12px 18px;}
+    .sidebar{position:static;height:auto;overflow:visible;width:auto;border-right:none;border-bottom:1px solid var(--line);padding:14px 16px;gap:10px;}
+    .sb-target,.sb-foot{display:none;}
+    .sb-nav{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
+    .sb-grouplabel{display:none;}
+    .navbtn{flex:none;width:auto;white-space:nowrap;padding:8px 14px;border:1px solid var(--line);border-radius:99px;}
+    .navbtn.active::before{display:none;}
+    .navbtn .badge{display:none;}
+    .menutoggle,.scrim{display:none!important;}
+    .content{padding:24px 16px 50px;}
+    .topbar{padding:12px 16px;}
+    .stats{grid-template-columns:1fr 1fr;}
   }
   :focus-visible{outline:2px solid var(--v);outline-offset:2px;border-radius:6px;}
 </style>
@@ -181,6 +187,7 @@
       <div class="scorebar"><span class="track"><span class="fill"></span></span><span class="val">62</span></div>
     </div>
 
+    <div class="sb-nav">
     <div class="sb-grouplabel">Their profile</div>
     <button class="navbtn active" data-tab="summary"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></span> Summary</button>
     <button class="navbtn" data-tab="overview"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5m0 3h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Overview</button>
@@ -191,6 +198,7 @@
     <div class="sb-grouplabel">What we provide</div>
     <button class="navbtn" data-tab="opportunities"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Opportunities <span class="badge">8</span></button>
     <button class="navbtn" data-tab="proposal"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6M9 13l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Proposal <span class="badge badge-ai">AI</span></button>
+    </div>
 
     <div class="sb-foot"><a class="btn btn-ghost" href="index.html" style="width:100%;justify-content:center;">← New search</a></div>
   </aside>
