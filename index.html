@@ -224,6 +224,7 @@
         <div class="agentbox">
           <div class="head"><span class="spin" id="runSpin" aria-hidden="true"></span> <span id="runTitle">Researching <b id="runTarget"></b>…</span></div>
           <div class="steps" id="runSteps"></div>
+          <div id="reportCta" style="display:none; margin-top:20px;"><a class="btn btn-grad" href="report.html">Open full report →</a></div>
         </div>
       </div>
     </div>
@@ -375,8 +376,13 @@
     });
     timers.push(setTimeout(function(){
       runSpin.style.display='none';
-      runTitle.innerHTML = 'Profile ready for <b>'+val+'</b> — a full report would open here.';
+      runTitle.innerHTML = 'Report ready for <b>'+val+'</b> — opening…';
+      var cta = document.getElementById('reportCta');
+      if(cta){ cta.style.display='block'; }
     }, STEP_LABELS.length*1400 + 400));
+    timers.push(setTimeout(function(){
+      window.location.href = 'report.html';
+    }, STEP_LABELS.length*1400 + 1600));
   }
   document.getElementById('analyzeBtn').addEventListener('click', run);
   input.addEventListener('keydown', function(e){ if(e.key==='Enter') run(); });
