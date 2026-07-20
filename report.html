@@ -268,7 +268,7 @@
         <div id="proposalBody" style="display:none;"></div>
       </section>
       <section class="panel" data-tab="history">
-        <div class="phead"><div class="eye">Recent</div><h1>Searches history</h1><p>Every URL you analyzed. Click one to open its report.</p></div>
+        <div class="phead" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><div class="eye">Recent</div><h1>Searches history</h1><p>Every URL you analyzed. Click one to open its report.</p></div><button id="clearHistBtn" type="button" class="btn btn-ghost" style="flex:0 0 auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2m2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Clear all</button></div>
         <div id="histList"></div>
       </section>
     </div>
@@ -381,14 +381,17 @@
     if(!email&&!phone) gaps.push(['No clear contact on page','Lost leads','No visible email/phone link — visitors ready to buy can\'t reach out easily.']);
     if(words<300) gaps.push(['Thin content','Little text to rank','Very little page copy — weak for SEO and for answering buyer questions.']);
     if(/wix|squarespace|webflow|builder/i.test(fw.tags.join(' '))||/Wix|Squarespace/.test(fw.name)) gaps.push(['Template builder','Limited scalability','Built on a drag-drop builder — harder to add automation, portals or custom features.']);
-    if(!gaps.length) gaps.push(['Room to modernise','Always an upside','Even solid sites can gain from automation, CRM and conversion optimisation.']);
+    var hasChat=/intercom|tawk\.to|livechat|drift|crisp\.chat|zendesk|tidio|freshchat|whatsapp/i.test(html||'');
+    if(!hasChat){ gaps.unshift(['No live chat or virtual assistant','Unanswered visitors','No chat widget or automated assistant — visitor questions go unanswered after hours and warm leads leave without a reply.']);
+      gaps.push(['No phone-call handling / calling agent','Missed calls = missed sales','Inbound enquiries rely on manual answering. A virtual calling agent could qualify, answer FAQs, book jobs and follow up 24/7.']); }
+    if(!gaps.length) gaps.push(['Room to modernise','Conversion &amp; automation upside','Even solid sites gain from automation, CRM and conversion optimisation.']);
 
     // opportunities (tailored)
     var opps=[];
     if(!desc||!h1||!canonical||!https||words<300) opps.push({t:'SEO &amp; technical optimisation',s:'Recover rankings and fix on-page issues',p:'high',why:'Fix the missing SEO fundamentals we detected and lift organic visibility.',inc:['Titles, meta descriptions &amp; canonical tags','H1/heading structure &amp; content depth','HTTPS &amp; Core Web Vitals fixes','XML sitemap &amp; indexing']});
     if(!viewport||fw.name==='Custom / Unknown') opps.push({t:'Responsive / conversion redesign',s:'Modern, mobile-first, higher converting',p:'high',why:'Bring the front-end up to modern, mobile-first standards with clear CTAs.',inc:['Mobile-first responsive rebuild','Clear CTAs &amp; trust signals','Speed &amp; accessibility pass','Brand-consistent UI']});
     opps.push({t:'Custom web app / automation',s:'Turn manual work into recurring value',p:'high',why:'Automate their core workflow (quotes, orders, bookings) to save staff time and lock in customers.',inc:['Customer portal / dashboard','Automated quote or booking flow','Order/status tracking','Integrations with their tools']});
-    if(socN<3||!email||!phone) opps.push({t:'AI chatbot + lead capture',s:'Answer &amp; capture leads 24/7',p:'med',why:'Recover leads currently lost when no one replies — round-the-clock answers and capture.',inc:['Chatbot trained on their FAQ','WhatsApp / live chat','Lead capture into CRM','Human handoff']});
+    if(socN<3||!email||!phone) opps.push({t:'Automated chat assistant + lead capture',s:'Answer &amp; capture leads 24/7',p:'med',why:'Recover leads currently lost when no one replies — round-the-clock answers and capture.',inc:['Chat assistant trained on their FAQ','WhatsApp / live chat','Lead capture into CRM','Human handoff']});
     if(socN<3) opps.push({t:'Social media setup &amp; management',s:'Build reach and credibility',p:'med',why:'Establish and grow the channels they\'re missing to build trust and audience.',inc:['Set up missing channels','Content calendar &amp; posting','Profile/branding consolidation','Community management']});
     opps.push({t:'CRM + email marketing automation',s:'Monetise the existing audience',p:'med',why:'Lifecycle campaigns (follow-ups, re-orders, reviews) drive cheap repeat revenue.',inc:['CRM setup','Email automation flows','Re-engagement &amp; reviews','Reporting']});
     opps.push({t:'Content, blog &amp; reputation',s:'Durable organic leads + proof',p:'med',why:'Publish SEO content and seed reviews to build authority and trust.',inc:['SEO blog engine','Keyword content plan','Google Business / Trustpilot','Review generation']});
@@ -399,11 +402,15 @@
   function fallbackData(url){
     var dom=domainOf(url);
     return { url:url, domain:dom, fetched:false, title:'', desc:'', favUrl:'https://www.google.com/s2/favicons?domain='+encodeURIComponent(dom)+'&sz=128',
-      fw:{name:'Not detected',tags:['—']}, https:/^https:/i.test(url), viewport:false,h1:false,canonical:false,ogImg:false,imgs:0,links:0,words:0,socials:{},email:'',phone:'',
+      fw:{name:'Custom / undetected',tags:['—']}, https:/^https:/i.test(url), viewport:false,h1:false,canonical:false,ogImg:false,imgs:0,links:0,words:0,socials:{},email:'',phone:'',
       seo:0,ux:0,socScore:0,overall:0,
       strengths:[['Site is live','The domain resolves and is reachable.']],
-      gaps:[['Could not fetch page','Blocked or offline','We couldn\'t read the page (it may block automated access). A manual audit will confirm details.']],
-      opps:[{t:'Full digital audit',s:'Website, SEO, socials &amp; automation',p:'high',why:'A hands-on audit will surface exactly what to improve.',inc:['Website &amp; UX review','SEO &amp; performance audit','Social &amp; brand review','Automation opportunities']},
+      gaps:[['No live chat or virtual assistant','Unanswered visitors','No chat widget or automated assistant — visitor questions go unanswered after hours and warm leads leave without a reply.'],
+            ['No phone-call handling / calling agent','Missed calls = missed sales','Inbound enquiries rely on manual answering. A virtual calling agent could qualify, answer FAQs, book jobs and follow up 24/7.'],
+            ['No clear lead-capture path','Hard to convert','Without an easy form, chat or click-to-call, interested buyers drop off instead of converting.'],
+            ['Could not fully read the page','Manual audit needed','The page blocked automated reading — a hands-on audit will confirm the rest.']],
+      opps:[{t:'Automated chat assistant',s:'Answer &amp; capture leads 24/7',p:'high',why:'Recover leads currently lost when no one replies — instant answers and capture round the clock.',inc:['Chat assistant trained on their FAQ','WhatsApp / live chat','Lead capture into CRM','Human handoff']},
+            {t:'Virtual calling agent',s:'Never miss an enquiry',p:'high',why:'Answer inbound calls, qualify leads, book appointments and follow up automatically.',inc:['Inbound call answering','Lead qualification','Appointment booking','Outbound follow-up']},
             {t:'Website &amp; app development',s:'Build or rebuild the right way',p:'high',why:'VV Tech Sol can design and build a modern, conversion-focused site or app.',inc:['Custom design &amp; build','Mobile-first &amp; fast','CMS / portal','Integrations']}] };
   }
 
@@ -551,7 +558,7 @@
         'Based on our live analysis of <b>'+esc(d.domain||'')+'</b> (digital-maturity score '+ (d.overall||0) +'/100), VV Tech Sol proposes a phased program to close the gaps we found and turn this site into a stronger, higher-converting, better-ranked asset — built efficiently on top of what already exists.</div>'+
         '<div class="prop-h">Recommended scope</div>'+
         (d.opps||[]).slice(0,5).map(function(o,i){return '<div class="phase"><div class="ph-top"><span class="tag">Step '+(i+1)+'</span><h3>'+o.t+'</h3><span class="when">'+(o.p==='high'?'Priority':'Phase 2')+'</span></div><ul>'+(o.inc||[]).map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul><div class="out">→ '+o.why+'</div></div>';}).join('')+
-        '<div class="prop-h">Why VV Tech Sol</div><div class="whyus"><div><b>Full-stack web &amp; custom software</b> — sites, portals &amp; apps built to scale.</div><div><b>AI automation &amp; chatbots</b> — 24/7 support, instant quotes &amp; lead capture.</div><div><b>SEO, content &amp; paid growth</b> — visibility and high-intent traffic.</div><div><b>Design + social under one roof</b> — one partner, one brand.</div></div>'+
+        '<div class="prop-h">Why VV Tech Sol</div><div class="whyus"><div><b>Full-stack web &amp; custom software</b> — sites, portals &amp; apps built to scale.</div><div><b>Smart automation &amp; chat assistants</b> — 24/7 support, instant quotes &amp; lead capture.</div><div><b>SEO, content &amp; paid growth</b> — visibility and high-intent traffic.</div><div><b>Design + social under one roof</b> — one partner, one brand.</div></div>'+
         '<div class="prop-h">Indicative investment</div><table class="prop-table" style="width:100%;border-collapse:collapse;"><tr><td style="padding:14px 16px;border-bottom:1px solid var(--line)">Priority fixes (SEO / UX quick wins)</td><td style="padding:14px 16px;border-bottom:1px solid var(--line);text-align:right;font-weight:800;color:#fff">from $1,200</td></tr><tr><td style="padding:14px 16px;border-bottom:1px solid var(--line)">Custom build (portal / app / redesign)</td><td style="padding:14px 16px;border-bottom:1px solid var(--line);text-align:right;font-weight:800;color:#fff">from $3,500</td></tr><tr><td style="padding:14px 16px">Growth retainer (SEO / social / ads)</td><td style="padding:14px 16px;text-align:right;font-weight:800;color:#fff">from $800 / mo</td></tr></table><p class="disclaimer">Indicative ranges — final scope &amp; quote confirmed after a short discovery call. Focus wedge: '+esc(wedge)+'.</p>'+
         '<div class="cta"><h3>Let\'s turn this analysis into a win.</h3><p>Download this proposal as a Word doc and send it to '+esc(nm)+', or book a call with VV Tech Sol.</p><div class="row"><button class="btn btn-grad" type="button" onclick="downloadProposal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download proposal (Word)</button><button class="btn btn-ghost" type="button" onclick="exportPDF()">Export full report (PDF)</button></div></div>';
         body.style.display='block';
@@ -570,7 +577,7 @@
     '<p>Based on our live analysis of '+(d.domain||'')+' (digital-maturity score '+(d.overall||0)+'/100), VV Tech Sol proposes a program to close the gaps found and turn this site into a stronger, higher-converting, better-ranked asset.</p>'+
     '<h2 style="color:#4c1d95;">What is holding '+nm+' back</h2>'+gapHtml+
     '<h2 style="color:#4c1d95;">Our plan to fix it</h2>'+oppHtml+
-    '<h2 style="color:#4c1d95;">Why VV Tech Sol</h2><ul><li>Full-stack web &amp; custom software.</li><li>AI automation &amp; chatbots.</li><li>SEO, content &amp; paid growth.</li><li>Design + social under one roof.</li></ul>'+
+    '<h2 style="color:#4c1d95;">Why VV Tech Sol</h2><ul><li>Full-stack web &amp; custom software.</li><li>Smart automation &amp; chat assistants.</li><li>SEO, content &amp; paid growth.</li><li>Design + social under one roof.</li></ul>'+
     '<h2 style="color:#4c1d95;">Indicative investment</h2><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><tr><td>Priority fixes (SEO / UX quick wins)</td><td align="right"><b>from $1,200</b></td></tr><tr><td>Custom build (portal / app / redesign)</td><td align="right"><b>from $3,500</b></td></tr><tr><td>Growth retainer</td><td align="right"><b>from $800 / mo</b></td></tr></table>'+
     '<p style="color:#777;font-size:9pt;">Indicative ranges — final scope &amp; quote after a discovery call.</p><hr><p><b>VV Tech Sol</b> &middot; hello@vvtechsol.com &middot; vvtechsol.com</p></body></html>';
     var blob=new Blob(['﻿',html],{type:'application/msword'});
@@ -658,7 +665,7 @@
         '<p class="disc">Indicative ranges. Final scope &amp; fixed quote confirmed after a short discovery call.</p></div>'+
       '<div class="sec"><p class="eyebrow">Why us</p><h2>Why VV Tech Sol</h2><div class="why">'+
         '<div><b>Full-stack web &amp; software</b> — sites, portals &amp; apps built to scale.</div>'+
-        '<div><b>AI automation &amp; chatbots</b> — 24/7 support, instant quotes, lead capture.</div>'+
+        '<div><b>Smart automation &amp; chat assistants</b> — 24/7 support, instant quotes, lead capture.</div>'+
         '<div><b>SEO, content &amp; paid growth</b> — visibility and high-intent traffic.</div>'+
         '<div><b>Design + social, one partner</b> — one team, one consistent brand.</div></div></div>'+
       '<div class="cta"><h3>Let us turn this analysis into a win.</h3><p>Book a free discovery call and we will confirm scope, timeline and a fixed quote.</p>'+
@@ -696,17 +703,28 @@
     if(!h.length){ el.innerHTML='<p class="hempty">No searches yet. Analyze a URL from the home page.</p>'; return; }
     el.innerHTML=h.map(function(x){ return '<a class="hitem" href="report.html?url='+encodeURIComponent(x.url)+'"><span class="hic">'+ICON_WEB+'</span><span class="hu">'+esc(domainOf(x.url))+'</span><span class="ht">'+timeAgo(x.t)+'</span><span class="hgo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>'; }).join('');
   }
+  function clearHistory(){
+    try{ localStorage.removeItem(HKEY); localStorage.removeItem(CKEY); }catch(e){}
+    renderHistory(); toast('✓ Search history cleared');
+  }
+  document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('#clearHistBtn'); if(b){ e.preventDefault(); if(!loadHist().length){ toast('History is already empty'); return;} if(confirm('Clear all search history?')) clearHistory(); } });
 
   // ---- BOOT ----
   var LOAD_STEPS=['Connecting to the website','Reading pages, meta &amp; tech','Detecting framework, SEO &amp; socials','Scoring &amp; drafting recommendations'];
   function showLoader(url){
     var l=document.getElementById('loader'); document.getElementById('loadUrl').textContent=url;
     document.getElementById('loadSteps').innerHTML=LOAD_STEPS.map(function(s,i){return '<div class="ls" data-i="'+i+'"><span class="d"></span>'+s+'</div>';}).join('')+
-      '<div class="ls-note" style="margin-top:14px;color:var(--cyan,#7dd3fc);font-size:13px;opacity:.9">🤖 AI is studying the site &amp; writing your report — usually 15-25 seconds…</div>';
+      '<div class="ls-note" style="margin-top:14px;color:var(--cyan,#7dd3fc);font-size:13px;opacity:.9">Studying the website and preparing your report — usually 20-30 seconds…</div>';
     l.classList.add('show');
     var els=document.querySelectorAll('#loadSteps .ls'); els.forEach(function(e,i){ setTimeout(function(){e.classList.add('on');}, i*450); });
   }
   function hideLoader(){ document.getElementById('loader').classList.remove('show'); }
+
+  // ---- RESULT CACHE (so re-opening a report is instant, no repeated loader) ----
+  var CKEY='reachscale_cache_v1'; var CACHE_TTL=6*3600*1000; // 6h
+  function loadCache(){ try{ return JSON.parse(localStorage.getItem(CKEY)||'{}'); }catch(e){ return {}; } }
+  function getCached(url){ try{ var c=loadCache()[url]; if(c && (Date.now()-c.t)<CACHE_TTL) return c.d; }catch(e){} return null; }
+  function setCached(url,data){ try{ var c=loadCache(); c[url]={t:Date.now(),d:data}; var ks=Object.keys(c); if(ks.length>20){ ks.sort(function(a,b){return c[a].t-c[b].t;}); delete c[ks[0]]; } localStorage.setItem(CKEY,JSON.stringify(c)); }catch(e){} }
 
   (function boot(){
     var raw=qp.get('url'); var url=normalize(raw||'');
@@ -715,24 +733,32 @@
       document.getElementById('sumSub').innerHTML='Go to the <a href="index.html" style="color:var(--cyan)">search page</a> and enter a website or profile URL.';
       renderHistory(); return;
     }
-    saveHist(url); showLoader(url);
+    saveHist(url);
+    // --- instant render from cache (unless ?fresh=1) — stops the loader repeating ---
+    var wantFresh=qp.get('fresh');
+    if(!wantFresh){
+      var cached=getCached(url);
+      if(cached){ A.data=cached; render(A.data); renderHistory(); hideLoader();
+        toast('Loaded saved analysis — add ?fresh=1 to re-run'); return; }
+    }
+    showLoader(url);
     // --- AI backend path (if a Cloudflare Worker is connected) ---
     if(AI_WORKER){
       var ctrl=(typeof AbortController!=='undefined')?new AbortController():null;
       var timedOut=false;
-      var killer=setTimeout(function(){ timedOut=true; if(ctrl) ctrl.abort(); }, 50000);
+      var killer=setTimeout(function(){ timedOut=true; if(ctrl) ctrl.abort(); }, 60000);
       fetch(AI_WORKER+'?url='+encodeURIComponent(url), ctrl?{signal:ctrl.signal}:{})
       .then(function(r){return r.json();})
       .then(function(ai){
         clearTimeout(killer);
         if(!ai || ai.error || ai.overall_score==null) throw new Error((ai&&ai.error)||'bad response');
-        A.data=aiToData(url,ai); render(A.data); renderHistory(); hideLoader();
-        toast('✓ AI analysis complete');
+        A.data=aiToData(url,ai); setCached(url,A.data); render(A.data); renderHistory(); hideLoader();
+        toast('✓ Analysis complete');
       }).catch(function(){
         clearTimeout(killer);
         fetchHTML(url).then(function(html){
           A.data=html?analyze(url,html):fallbackData(url); render(A.data); renderHistory(); hideLoader();
-          toast(timedOut?'AI took too long — showing quick analysis.':'AI backend unreachable — showing quick analysis.');
+          toast(timedOut?'Taking longer than usual — showing a quick analysis.':'Live analysis unavailable — showing a quick analysis.');
         });
       });
       return;
