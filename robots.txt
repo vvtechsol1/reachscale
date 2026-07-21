@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vvtechsol1.github.io/reachscale/sitemap.xml
