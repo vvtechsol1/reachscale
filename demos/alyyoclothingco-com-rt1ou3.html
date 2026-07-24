@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alyyo Clothing Co - Custom Apparel Manufacturing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #f1c40f;
+      --background-color: #f9f9f9;
+      --text-color: #333;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-color);
+      background-color: var(--background-color);
+    }
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .nav-bar .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    .nav-bar .links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-bar .links a {
+      margin-right: 20px;
+      text-decoration: none;
+      color: var(--text-color);
+    }
+    .nav-bar .cta-button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+    .nav-bar .cta-button:hover {
+      background-color: #2ecc71;
+    }
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+      .nav-bar .logo {
+        margin-bottom: 10px;
+      }
+      .nav-bar .links {
+        flex-direction: column;
+        align-items: center;
+      }
+      .nav-bar .links a {
+        margin-bottom: 10px;
+      }
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 20px;
+      background-color: var(--background-color);
+    }
+    .hero .eyebrow {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .hero .headline {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .hero .subheadline {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .hero .buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hero .primary-button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+    .hero .primary-button:hover {
+      background-color: #2ecc71;
+    }
+    .hero .secondary-button {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+    .hero .secondary-button:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    .stats-bar .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      flex-basis: 25%;
+    }
+    .stats-bar .stat .number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .stats-bar .stat .label {
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      .stats-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+      .stats-bar .stat {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+    .services-grid .service {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .services-grid .service .icon {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .services-grid .service .heading {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .services-grid .service .copy {
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      .services-grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    .why-choose-us {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+    .why-choose-us .text {
+      flex-basis: 50%;
+    }
+    .why-choose-us .text .heading {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .why-choose-us .text .copy {
+      font-size: 14px;
+    }
+    .why-choose-us .visual {
+      flex-basis: 50%;
+      background-color: #f7f7f7;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 768px) {
+      .why-choose-us {
+        flex-direction: column;
+        align-items: center;
+      }
+      .why-choose-us .text {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+      }
+      .why-choose-us .visual {
+        flex-basis: 100%;
+      }
+    }
+    .testimonials {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+    .testimonials .testimonial {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      flex-basis: 30%;
+    }
+    .testimonials .testimonial .avatar {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .testimonials .testimonial .quote {
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      .testimonials {
+        flex-direction: column;
+        align-items: center;
+      }
+      .testimonials .testimonial {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    .closing-cta {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .closing-cta .heading {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .closing-cta .button {
+      background-color: #2ecc71;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s ease;
+    }
+    .closing-cta .button:hover {
+      background-color: #1abc9c;
+    }
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+    }
+    .footer .brand {
+      flex-basis: 30%;
+    }
+    .footer .links {
+      flex-basis: 30%;
+    }
+    .footer .links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer .links li {
+      margin-bottom: 10px;
+    }
+    .footer .links a {
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer .contact {
+      flex-basis: 30%;
+    }
+    .footer .contact p {
+      margin-bottom: 10px;
+    }
+    .footer .bottom-bar {
+      background-color: #444;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="logo">Alyyo Clothing Co</div>
+    <div class="links">
+      <a href="#">Services</a>
+      <a href="#">Why us</a>
+      <a href="#">Reviews</a>
+      <a href="#">Contact</a>
+    </div>
+    <button class="cta-button">Get Started</button>
+  </nav>
+  <section class="hero">
+    <div class="eyebrow">Custom Apparel Manufacturing</div>
+    <h1 class="headline">Transform Your Brand with Our Expertise</h1>
+    <p class="subheadline">We offer tech packs, sampling, cut & sew, and paid consulting to help you create high-quality custom apparel.</p>
+    <div class="buttons">
+      <button class="primary-button">Learn More</button>
+      <button class="secondary-button">Get a Quote</button>
+    </div>
+  </section>
+  <section class="stats-bar">
+    <div class="stat">
+      <div class="number">10+</div>
+      <div class="label">Years of Experience</div>
+    </div>
+    <div class="stat">
+      <div class="number">500+</div>
+      <div class="label">Projects Completed</div>
+    </div>
+    <div class="stat">
+      <div class="number">99%</div>
+      <div class="label">Client Satisfaction Rate</div>
+    </div>
+    <div class="stat">
+      <div class="number">24/7</div>
+      <div class="label">Support</div>
+    </div>
+  </section>
+  <section class="services-grid">
+    <div class="service">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v18l4-4h10a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6v4h-6v6H6v-6h4v-4z"></path></svg></div>
+      <h2 class="heading">Tech Packs</h2>
+      <p class="copy">We create detailed tech packs to ensure accurate production and minimize errors.</p>
+    </div>
+    <div class="service">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-scissors"><polygon points="6 13 21 5 21 19 6 5"></polygon></svg></div>
+      <h2 class="heading">Sampling</h2>
+      <p class="copy">We offer sampling services to ensure the quality and fit of your custom apparel.</p>
+    </div>
+    <div class="service">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sewing-machine"><path d="M17 3H7a2 2 0 0 0-2 2v14l4-4h10a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></div>
+      <h2 class="heading">Cut & Sew</h2>
+      <p class="copy">We offer cut and sew services to create high-quality custom apparel.</p>
+    </div>
+  </section>
+  <section class="why-choose-us">
+    <div class="text">
+      <h2 class="heading">Why Choose Us</h2>
+      <p class="copy">We have years of experience in the custom apparel manufacturing industry and offer a wide range of services to meet your needs.</p>
+    </div>
+    <div class="visual">
+      <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M50 50a10 10 0 0 1 0-20 10 10 0 0 1 0 20z"></path><path d="M50 50a20 20 0 0 0-20 20 20 20 0 0 0 20 20 20 20 0 0 0 20-20 20 20 0 0 0-20-20z"></path><path d="M50 50a10 10 0 0 1 0-20 10 10 0 0 1 0 20z"></path></svg>
+    </div>
+  </section>
+  <section class="testimonials">
+    <div class="testimonial">
+      <div class="avatar">A</div>
+      <p class="quote">Alyyo Clothing Co has been a pleasure to work with. Their expertise and attention to detail are unparalleled.</p>
+    </div>
+    <div class="testimonial">
+      <div class="avatar">B</div>
+      <p class="quote">We've been working with Alyyo Clothing Co for years and have always been impressed with their quality and service.</p>
+    </div>
+    <div class="testimonial">
+      <div class="avatar">C</div>
+      <p class="quote">Alyyo Clothing Co's sampling services have saved us time and money. Their attention to detail is impressive.</p>
+    </div>
+  </section>
+  <section class="closing-cta">
+    <h2 class="heading">Get Started with Alyyo Clothing Co Today</h2>
+    <button class="button">Contact Us</button>
+  </section>
+  <footer class="footer">
+    <div class="brand">
+      <p>Alyyo Clothing Co</p>
+    </div>
+    <div class="links">
+      <ul>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Why us</a></li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="contact">
+      <p>Phone: 555-555-5555</p>
+      <p>Email: [info@alyyoclothingco.com](mailto:info@alyyoclothingco.com)</p>
+    </div>
+    <div class="bottom-bar">
+      Concept demo prepared by VV Tech Sol for Alyyo Clothing Co - <a href="https://vvtechsol.com">vvtechsol.com</a>
+    </div>
+  </footer>
+</body>
+</html>
