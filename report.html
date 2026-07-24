@@ -945,14 +945,47 @@
     if(db){
       db.innerHTML='<div style="border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:#fff;">'+
         '<iframe id="demoFrame" style="width:100%;height:640px;border:0;display:block;" sandbox="allow-same-origin"></iframe></div>'+
-        '<div class="cta"><h3>Demo ready.</h3><p>Preview above, download the file to send it, or open it full-screen in a new tab.</p><div class="row">'+
-        '<button class="btn btn-grad" type="button" onclick="downloadDemo()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download demo (HTML)</button>'+
+        '<div class="cta"><h3>Demo ready.</h3><p>Preview above. Go live for a real shareable link, download the file, or open it full-screen.</p><div class="row">'+
+        '<button class="btn btn-grad" type="button" id="goLiveBtn" onclick="goLiveDemo()">🚀 Go live</button>'+
+        '<button class="btn btn-ghost" type="button" onclick="downloadDemo()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download (HTML)</button>'+
         '<button class="btn btn-ghost" type="button" onclick="openDemoNewTab()">Open in new tab</button>'+
         '<button class="btn btn-ghost" type="button" onclick="genLiveDemo()">Regenerate</button>'+
-        '</div><p class="disclaimer" style="margin-top:16px">A one-off concept redesign to help pitch this client — not their real site. To get it a public link to share, ask VV Tech Sol to publish it (same as the Alyyo / MedConnect demos).</p></div>';
+        '</div><div id="goLiveResult"></div>'+
+        '<p class="disclaimer" style="margin-top:16px">A one-off concept redesign to help pitch this client — not their real site.</p></div>';
       db.style.display='block';
       var frame=document.getElementById('demoFrame'); if(frame) frame.srcdoc=A.demoHTML;
     }
+  }
+  var PUBLISH_KEY_STORE='reachscale_publish_key';
+  function goLiveDemo(retry){
+    if(!A.demoHTML){ toast('Generate the demo first.'); return; }
+    var key=localStorage.getItem(PUBLISH_KEY_STORE);
+    if(!key){
+      key=(prompt('Publish passphrase (ask VV Tech Sol admin if you don\'t have it):')||'').trim();
+      if(!key) return;
+      localStorage.setItem(PUBLISH_KEY_STORE, key);
+    }
+    var btn=document.getElementById('goLiveBtn'); if(btn){btn.disabled=true; btn.textContent='Publishing…';}
+    var d=A.data||{};
+    fetch(AI_WORKER+'?mode=publish', { method:'POST', headers:{'Content-Type':'application/json','X-Publish-Key':key}, body:JSON.stringify({html:A.demoHTML, domain:d.domain}) })
+      .then(function(r){ return r.json().then(function(j){ return {status:r.status, body:j}; }); })
+      .then(function(res){
+        if(btn){btn.disabled=false; btn.textContent='🚀 Go live';}
+        if(res.status===403){
+          localStorage.removeItem(PUBLISH_KEY_STORE);
+          if(!retry){ toast('Wrong passphrase — try again.'); goLiveDemo(true); }
+          else toast('Still unauthorized — check the passphrase with VV Tech Sol admin.');
+          return;
+        }
+        if(res.status!==200 || !res.body || !res.body.url){ toast((res.body&&res.body.error)||'Publish failed — try again.'); return; }
+        var url=res.body.url;
+        var box=document.getElementById('goLiveResult');
+        if(box) box.innerHTML='<div style="margin-top:14px;padding:14px 16px;border:1px solid var(--line-2);border-radius:12px;background:var(--panel);display:flex;gap:10px;align-items:center;flex-wrap:wrap;">'+
+          '<span style="color:var(--green);font-weight:700;">✓ Live:</span> <a href="'+url+'" target="_blank" rel="noopener" style="color:var(--cyan);word-break:break-all;">'+url+'</a>'+
+          '<button class="btn btn-ghost" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+url+'\');toast(\'✓ Link copied\')" style="margin-left:auto">Copy link</button></div>';
+        toast('✓ Demo is live');
+      })
+      .catch(function(){ if(btn){btn.disabled=false; btn.textContent='🚀 Go live';} toast('Publish failed — please try again.'); });
   }
   function downloadDemo(){
     if(!A.demoHTML){ toast('Generate the demo first.'); return; }
