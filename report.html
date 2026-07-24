@@ -280,6 +280,7 @@
       <button class="navbtn" data-tab="opportunities"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Opportunities <span class="badge" id="bOpp">0</span></button>
       <button class="navbtn" data-tab="audit"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 8.5-7 9.5-4-1-7-5-7-9.5V7l7-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Audit report <span class="badge badge-ai">AI</span></button>
       <button class="navbtn" data-tab="proposal"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6M9 13l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Proposal <span class="badge badge-ai">AI</span></button>
+      <button class="navbtn" data-tab="livedemo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Live demo <span class="badge badge-ai">AI</span></button>
       <button class="navbtn" data-tab="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 4v3h3M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Searches history</button>
     </div>
     <div class="sb-foot"><a class="btn btn-ghost" href="index.html" style="width:100%;justify-content:center;">← New search</a></div>
@@ -323,6 +324,16 @@
         <div class="phead"><div class="eye">What we provide</div><h1 id="propHead">Proposal</h1><p>Step 2 — auto-drafted from the audit — VV Tech Sol's recommended engagement.</p></div>
         <div id="proposalGen" class="genbox"><span class="spin"></span> Drafting a tailored proposal from the analysis &amp; VV Tech Sol services…</div>
         <div id="proposalBody" style="display:none;"></div>
+      </section>
+      <section class="panel" data-tab="livedemo">
+        <div class="phead"><div class="eye">What we provide</div><h1 id="demoHead">Live demo</h1><p>Step 3 — a one-off concept redesign, custom-designed for this business, to help close the deal.</p></div>
+        <div id="demoIntro" class="cta" style="margin-top:0;">
+          <h3>Generate a live demo site</h3>
+          <p>Our design AI studies this business and designs a unique, one-page concept redesign — its own colors, layout and copy, not a template. Takes about 30–60 seconds.</p>
+          <div class="row"><button class="btn btn-grad" type="button" onclick="genLiveDemo()">✦ Generate live demo</button></div>
+        </div>
+        <div id="demoGen" class="genbox" style="display:none;"><span class="spin"></span> <span id="demoGenMsg">Studying the brand &amp; industry…</span></div>
+        <div id="demoBody" style="display:none;"></div>
       </section>
       <section class="panel" data-tab="history">
         <div class="phead" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><div class="eye">Recent</div><h1>Searches history</h1><p>Every URL you analyzed. Click one to open its report.</p></div><button id="clearHistBtn" type="button" class="btn btn-ghost" style="flex:0 0 auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2m2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Clear all</button></div>
@@ -489,7 +500,8 @@
       overall:ai.overall_score||0,
       strengths:(ai.strengths||[]).map(function(s){return [s.title,s.detail];}),
       gaps:(ai.gaps||[]).map(function(g){return [g.title,g.sub,g.detail];}),
-      opps:(ai.opportunities||[]).map(function(o){return {t:o.title,s:o.sub,p:(/high/i.test(o.priority||'')?'high':'med'),why:o.why,inc:o.includes||[]};})
+      opps:(ai.opportunities||[]).map(function(o){return {t:o.title,s:o.sub,p:(/high/i.test(o.priority||'')?'high':'med'),why:o.why,inc:o.includes||[]};}),
+      industry:ai.industry||'', overview:ai.overview||'', companyName:ai.company_name||''
     };
   }
 
@@ -579,6 +591,10 @@
     // proposal head
     document.getElementById('propHead').textContent='Proposal for '+name;
     proposalDone=false; var pg=document.getElementById('proposalGen'),pb=document.getElementById('proposalBody'); if(pg)pg.style.display=''; if(pb){pb.style.display='none';pb.innerHTML='';}
+    // live demo head
+    document.getElementById('demoHead').textContent='Live demo — '+name;
+    A.demoHTML=null; var di=document.getElementById('demoIntro'),dg=document.getElementById('demoGen'),db=document.getElementById('demoBody');
+    if(di)di.style.display=''; if(dg)dg.style.display='none'; if(db){db.style.display='none';db.innerHTML='';}
   }
 
   // ---- TABS ----
@@ -895,6 +911,60 @@
     toast('Opening proposal — choose "Save as PDF" in the print dialog');
     var go=function(){ try{ w.focus(); w.print(); }catch(e){} };
     if(w.document.readyState==='complete'){ setTimeout(go,500); } else { w.onload=function(){ setTimeout(go,500); }; }
+  }
+
+  // ---- LIVE DEMO (step 3 — full one-page concept redesign, AI-designed per business) ----
+  var DEMO_MSGS=['Studying the brand &amp; industry…','Choosing a unique color palette &amp; layout…','Writing hero copy &amp; sections…','Finalizing the responsive design…'];
+  var demoMsgTimer=null;
+  function genLiveDemo(){
+    var d=A.data||{};
+    var di=document.getElementById('demoIntro'), dg=document.getElementById('demoGen'), db=document.getElementById('demoBody'), msgEl=document.getElementById('demoGenMsg');
+    if(di)di.style.display='none'; if(db){db.style.display='none';db.innerHTML='';}
+    if(dg)dg.style.display='';
+    var i=0; if(msgEl)msgEl.innerHTML=DEMO_MSGS[0];
+    clearInterval(demoMsgTimer);
+    demoMsgTimer=setInterval(function(){ i=(i+1)%DEMO_MSGS.length; if(msgEl)msgEl.innerHTML=DEMO_MSGS[i]; },4000);
+    var payload={ domain:d.domain, url:d.url, companyName:d.companyName||d.domain, industry:d.industry||'', overview:d.overview||d.desc||'', gaps:d.gaps||[], opportunities:d.opps||[] };
+    fetch(AI_WORKER+'?mode=demo', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
+      .then(function(r){ if(!r.ok) throw new Error('bad status '+r.status); return r.text(); })
+      .then(function(html){
+        clearInterval(demoMsgTimer);
+        if(!html || html.length<200) throw new Error('empty demo');
+        A.demoHTML=html;
+        renderDemoResult(d);
+      })
+      .catch(function(){
+        clearInterval(demoMsgTimer);
+        if(dg)dg.style.display='none'; if(di)di.style.display='';
+        toast('Could not generate the live demo — please try again in a moment.');
+      });
+  }
+  function renderDemoResult(d){
+    var dg=document.getElementById('demoGen'), db=document.getElementById('demoBody');
+    if(dg)dg.style.display='none';
+    if(db){
+      db.innerHTML='<div style="border:1px solid var(--line-2);border-radius:16px;overflow:hidden;background:#fff;">'+
+        '<iframe id="demoFrame" style="width:100%;height:640px;border:0;display:block;" sandbox="allow-same-origin"></iframe></div>'+
+        '<div class="cta"><h3>Demo ready.</h3><p>Preview above, download the file to send it, or open it full-screen in a new tab.</p><div class="row">'+
+        '<button class="btn btn-grad" type="button" onclick="downloadDemo()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download demo (HTML)</button>'+
+        '<button class="btn btn-ghost" type="button" onclick="openDemoNewTab()">Open in new tab</button>'+
+        '<button class="btn btn-ghost" type="button" onclick="genLiveDemo()">Regenerate</button>'+
+        '</div><p class="disclaimer" style="margin-top:16px">A one-off concept redesign to help pitch this client — not their real site. To get it a public link to share, ask VV Tech Sol to publish it (same as the Alyyo / MedConnect demos).</p></div>';
+      db.style.display='block';
+      var frame=document.getElementById('demoFrame'); if(frame) frame.srcdoc=A.demoHTML;
+    }
+  }
+  function downloadDemo(){
+    if(!A.demoHTML){ toast('Generate the demo first.'); return; }
+    var d=A.data||{}; var nm=(d.domain||'company').split('.')[0];
+    var blob=new Blob([A.demoHTML],{type:'text/html'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nm+'-live-demo.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('✓ Demo downloaded (HTML)');
+  }
+  function openDemoNewTab(){
+    if(!A.demoHTML){ toast('Generate the demo first.'); return; }
+    var w=window.open('','_blank'); if(!w){ toast('Please allow pop-ups, then try again.'); return; }
+    w.document.open(); w.document.write(A.demoHTML); w.document.close();
   }
 
   // ---- SHARE + TOAST ----
