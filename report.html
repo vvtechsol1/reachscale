@@ -159,6 +159,53 @@
   .cta .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
   .disclaimer{font-size:12px;color:var(--dim);margin-top:26px;line-height:1.5;}
 
+  /* ---- AUDIT DOCUMENT (VV Tech Sol audit-doc look, light theme, scoped) ---- */
+  .auditdoc{--a-purple:#7C3AED;--a-magenta:#C026D3;--a-grad:linear-gradient(120deg,var(--a-purple) 0%,var(--a-magenta) 100%);--a-dark1:#3D1476;--a-dark2:#1B0B36;--a-dark3:#0B0810;--a-ink:#17131F;--a-muted:#65607a;--a-line:#ECE8F5;--a-soft:#F7F5FC;
+    font-family:var(--sans);color:var(--a-ink);background:#fff;line-height:1.6;border-radius:16px;overflow:hidden;border:1px solid var(--a-line);box-shadow:0 24px 60px -24px rgba(0,0,0,0.5);}
+  .auditdoc *{box-sizing:border-box;}
+  .auditdoc a{color:var(--a-purple);text-decoration:none;}
+  .auditdoc .hero{background:linear-gradient(180deg,var(--a-dark1) 0%, var(--a-dark2) 46%, var(--a-dark3) 100%);color:#fff;padding:44px 40px 52px;}
+  .auditdoc .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;color:#d9b8f5;margin-bottom:16px;}
+  .auditdoc .eyebrow::before{content:"";width:18px;height:2px;background:var(--a-grad);display:inline-block;border-radius:2px;}
+  .auditdoc h1.title{font-size:27px;line-height:1.2;margin:0 0 14px;font-weight:800;color:#fff;}
+  .auditdoc .accent{background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .auditdoc .lead{font-size:14.5px;color:#cfc7e6;max-width:620px;margin:0 0 22px;}
+  .auditdoc .meta-row{display:flex;flex-wrap:wrap;gap:10px;}
+  .auditdoc .meta-chip{font-size:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:7px 12px;border-radius:10px;color:#e6e1f5;}
+  .auditdoc section{padding:36px 40px;}
+  .auditdoc section.alt{background:var(--a-soft);}
+  .auditdoc section+section{border-top:1px solid var(--a-line);}
+  .auditdoc .section-head{margin-bottom:22px;max-width:640px;}
+  .auditdoc .section-head .eyebrow{color:var(--a-purple);}
+  .auditdoc .section-head .eyebrow::before{background:var(--a-grad);}
+  .auditdoc h2{font-size:20px;margin:0 0 8px;font-weight:800;color:var(--a-ink);}
+  .auditdoc .section-head p{color:var(--a-muted);font-size:13.5px;margin:0;}
+  .auditdoc .grid{display:grid;gap:14px;}
+  .auditdoc .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  .auditdoc .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  .auditdoc .grid.cols-4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:760px){.auditdoc .grid.cols-2,.auditdoc .grid.cols-3,.auditdoc .grid.cols-4{grid-template-columns:1fr 1fr;}}
+  .auditdoc .card{background:#fff;border:1px solid var(--a-line);border-radius:13px;padding:18px;}
+  .auditdoc .icon-badge{width:32px;height:32px;border-radius:9px;background:var(--a-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;margin-bottom:10px;font-size:13px;}
+  .auditdoc .card h3{margin:0 0 6px;font-size:14.5px;color:var(--a-ink);}
+  .auditdoc .card p{margin:0;color:var(--a-muted);font-size:12.5px;line-height:1.55;}
+  .auditdoc .badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:3px 9px;border-radius:99px;margin-bottom:9px;}
+  .auditdoc .badge.critical{background:#FDE8E8;color:#B42318;}
+  .auditdoc .badge.high{background:#FDF1E7;color:#B54708;}
+  .auditdoc .badge.medium{background:#EFF4FF;color:#3538CD;}
+  .auditdoc .badge.good{background:#E7F6EC;color:#0B7A3B;}
+  .auditdoc .badge.rec{background:#F3E8FF;color:#7C3AED;}
+  .auditdoc .stat{text-align:center;}
+  .auditdoc .stat .num{font-size:24px;font-weight:800;background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .auditdoc .stat .label{font-size:11.5px;color:var(--a-muted);margin-top:4px;}
+  .auditdoc .callout{border-left:4px solid var(--a-purple);background:var(--a-soft);padding:14px 18px;border-radius:8px;color:var(--a-ink);font-size:13px;}
+  .auditdoc .num-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--a-grad);color:#fff;font-size:11px;font-weight:800;margin-right:10px;flex:none;}
+  .auditdoc .flex-row{display:flex;align-items:flex-start;}
+  .auditdoc footer.site{background:var(--a-dark3);color:#a99fc2;padding:26px 40px;font-size:12.5px;}
+  .auditdoc footer.site .fwrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center;}
+  .auditdoc footer.site b{color:#fff;}
+  @media(max-width:640px){.auditdoc .hero{padding:32px 24px 40px;} .auditdoc section{padding:28px 24px;} .auditdoc footer.site{padding:20px 24px;}}
+
   /* history */
   .hitem{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:10px;cursor:pointer;transition:border-color .18s,transform .18s var(--ease);}
   .hitem:hover{border-color:var(--line-2);transform:translateX(2px);}
@@ -549,44 +596,64 @@
   document.querySelector('.acc,#gapsAcc');
   document.addEventListener('click',function(e){var bar=e.target.closest('.acc .bar');if(bar)bar.parentElement.classList.toggle('open');});
 
-  // ---- AUDIT REPORT (step 1 — generated before the proposal) ----
+  // ---- AUDIT REPORT (step 1 — generated before the proposal, VV Tech Sol audit-doc look) ----
   var auditDone=false;
-  function socStatus(d){
-    var defs=[['facebook','Facebook'],['instagram','Instagram'],['linkedin','LinkedIn'],['youtube','YouTube'],['twitter','X / Twitter']];
-    return defs.map(function(s){ var found=!!d.socials[s[0]];
-      return '<span class="socbtn'+(found?'':' off')+'"><span class="sic">'+ICON_WEB+'</span> '+s[1]+(found?'':' <span class="tagno">· not found</span>')+'</span>'; }).join('');
-  }
-  function auditHTML(d,name){
+  function sevClass(i){ return i===0?'critical':(i<3?'high':'medium'); }
+  function sevLabel(i){ return i===0?'Critical':(i<3?'High':'Medium'); }
+  // Shared section builder — used both for the in-app preview and the exported PDF, so they always match.
+  function auditContentHTML(d,name){
     var verdict=verdictText(d.overall||0);
-    var strengths=(d.strengths||[]).map(function(s){return '<li><span class="mk ok">✓</span><span><b>'+esc(s[0])+'</b> — '+s[1]+'</span></li>';}).join('')||'<li><span class="mk ok">✓</span><span>Site is live and reachable.</span></li>';
-    var gaps=(d.gaps||[]).map(function(g){return '<li><span class="mk gap">!</span><span><b>'+esc(g[0])+'</b>'+(g[1]?' — '+esc(g[1]):'')+(g[2]?'<br><span style="font-size:13px">'+g[2]+'</span>':'')+'</span></li>';}).join('')||'<li><span class="mk ok">✓</span><span>No major issues detected.</span></li>';
-    var seoKv=[
-      ['Page title',d.title?'Present ✓':'Missing ✗'],
-      ['Meta description',d.desc?'Present ✓':'Missing ✗'],
-      ['H1 heading',d.h1?'Present ✓':'Missing ✗'],
-      ['Canonical tag',d.canonical?'Present ✓':'Missing ✗'],
-      ['Social share image',d.ogImg?'Present ✓':'Missing ✗'],
-      ['Content length',d.words+' words']
-    ].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';}).join('');
-    var focus=(d.opps||[]).slice(0,4).map(function(o,i){return '<div class="phase"><div class="ph-top"><span class="tag">'+(i+1)+'</span><h3>'+o.t+'</h3><span class="when">'+(o.p==='high'?'Priority':'Phase 2')+'</span></div><div class="out">→ '+o.why+'</div></div>';}).join('');
-    return '<div class="prop-intro"><div class="from">Prepared by <b>VV Tech Sol</b> · for <b>'+esc(name)+'</b> · '+dateStr()+'</div>'+
-      'Live audit of <b>'+esc(d.domain||'')+'</b> across SEO, UX, tech stack, contact &amp; social signals — automatically collected, no manual research added. Overall digital-maturity score: <b style="color:#fff">'+(d.overall||0)+'/100</b>. '+esc(verdict)+'</div>'+
-      '<div class="stats" style="margin-bottom:8px">'+
-        '<div class="stat"><div class="n grad-text">'+(d.overall||0)+'</div><div class="l">Overall score</div></div>'+
-        '<div class="stat"><div class="n grad-text">'+(d.seo||0)+'</div><div class="l">SEO score</div></div>'+
-        '<div class="stat"><div class="n grad-text">'+(d.ux||0)+'</div><div class="l">UI / UX score</div></div>'+
-        '<div class="stat"><div class="n grad-text">'+(d.socScore||0)+'</div><div class="l">Social score</div></div>'+
-      '</div>'+
-      '<div class="prop-h">What&#39;s working well</div><ul class="list">'+strengths+'</ul>'+
-      '<div class="prop-h">Gaps &amp; risks found</div><ul class="list">'+gaps+'</ul>'+
-      '<div class="prop-h">Digital presence &amp; social</div><div class="socrow">'+socStatus(d)+'</div>'+
-      '<div class="prop-h">On-page SEO checklist</div><dl class="kv">'+seoKv+'</dl>'+
-      (focus?'<div class="prop-h">Recommended focus areas</div>'+focus:'')+
-      '<div class="cta"><h3>Audit complete.</h3><p>Download this audit to send to '+esc(name)+', or continue to draft the proposal.</p><div class="row">'+
-        '<button class="btn btn-grad" type="button" onclick="downloadAudit()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download audit (Word)</button>'+
-        '<button class="btn btn-ghost" type="button" onclick="exportAuditPDF()">Export audit (PDF)</button>'+
-        '<button class="btn btn-ghost" type="button" onclick="showTab(\'proposal\',\'Proposal\')">Continue to proposal →</button>'+
-      '</div></div>';
+    var socN=Object.keys(d.socials||{}).length;
+    var hero='<div class="hero"><div class="eyebrow">Digital &amp; Growth Audit</div>'+
+      '<h1 class="title">'+esc(name)+'<br><span class="accent">Website, SEO &amp; Digital Position Review</span></h1>'+
+      '<p class="lead">A live, automated audit of <b>'+esc(d.domain||'')+'</b> across SEO, UX, tech stack, contact &amp; social signals — built entirely from real, measured data.</p>'+
+      '<div class="meta-row"><div class="meta-chip">Prepared by VV Tech Sol</div><div class="meta-chip">Date: '+dateStr()+'</div><div class="meta-chip">Subject: '+esc(d.domain||'')+'</div></div></div>';
+
+    var summary='<section><div class="section-head"><div class="eyebrow">Executive Summary</div><h2>'+verdict+'</h2>'+
+      '<p>Overall digital-maturity score '+(d.overall||0)+'/100 for <b>'+esc(d.domain||'')+'</b>, based on live SEO, UX and social-signal analysis.</p></div>'+
+      '<div class="grid cols-4">'+
+        '<div class="card stat"><div class="num">'+(d.overall||0)+'</div><div class="label">Overall score</div></div>'+
+        '<div class="card stat"><div class="num">'+(d.seo||0)+'</div><div class="label">SEO score</div></div>'+
+        '<div class="card stat"><div class="num">'+(d.ux||0)+'</div><div class="label">UI / UX score</div></div>'+
+        '<div class="card stat"><div class="num">'+socN+'/5</div><div class="label">Social channels found</div></div>'+
+      '</div></section>';
+
+    var issueCards=(d.gaps||[]).map(function(g,i){return '<div class="card"><span class="badge '+sevClass(i)+'">'+sevLabel(i)+'</span><h3>'+g[0]+'</h3><p>'+(g[2]||g[1]||'')+'</p></div>';}).join('');
+    var goodCards=(d.strengths||[]).map(function(s){return '<div class="card"><span class="badge good">Working well</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>';}).join('');
+    var section1='<section class="alt"><div class="section-head"><div class="eyebrow">01 &middot; Website: UX &amp; On-Page Issues</div><h2>What we found on the live page</h2>'+
+      '<p>Automated scan of SEO fundamentals, mobile-readiness and content signals — issues ranked by likely impact.</p></div>'+
+      '<div class="grid cols-2">'+(issueCards||'')+(goodCards||'')+'</div></section>';
+
+    var socCards=[['facebook','Facebook'],['instagram','Instagram'],['linkedin','LinkedIn'],['youtube','YouTube'],['twitter','X / Twitter']].map(function(s){
+      var found=!!d.socials[s[0]];
+      return '<div class="card"><span class="badge '+(found?'good':'medium')+'">'+(found?'Connected':'Not found')+'</span><h3>'+s[1]+'</h3><p>'+(found?'Live profile link detected on the site.':'No link to this channel found on the homepage.')+'</p></div>';
+    }).join('');
+    var techCard='<div class="card"><span class="badge rec">Platform</span><h3>'+(d.fw&&d.fw.name||'Unknown')+'</h3><p>'+((d.fw&&d.fw.tags&&d.fw.tags.join(', '))||'—')+'</p></div>';
+    var hasContact=!!(d.email||d.phone);
+    var contactCard='<div class="card"><span class="badge '+(hasContact?'good':'critical')+'">'+(hasContact?'Reachable':'No contact found')+'</span><h3>Contact</h3><p>'+(hasContact?[d.email,d.phone].filter(Boolean).join(' · '):'No email or phone link detected on the homepage.')+'</p></div>';
+    var section2='<section><div class="section-head"><div class="eyebrow">02 &middot; Digital Presence &amp; Social Media</div><h2>Where '+esc(name)+' shows up online</h2>'+
+      '<p>Channels and contact paths detected directly from the live page.</p></div>'+
+      '<div class="grid cols-3">'+socCards+techCard+contactCard+'</div></section>';
+
+    var seoCards=[
+      ['Page title',d.title?'Present':'Missing',d.title?'good':'critical'],
+      ['Meta description',d.desc?'Present':'Missing',d.desc?'good':'critical'],
+      ['H1 heading',d.h1?'Present':'Missing',d.h1?'good':'high'],
+      ['Canonical tag',d.canonical?'Present':'Missing',d.canonical?'good':'medium'],
+      ['Social share image',d.ogImg?'Present':'Missing',d.ogImg?'good':'medium'],
+      ['Content depth',d.words+' words',d.words>=300?'good':'high']
+    ].map(function(r){return '<div class="card"><span class="badge '+r[2]+'">'+r[1]+'</span><h3>'+r[0]+'</h3></div>';}).join('');
+    var section3='<section class="alt"><div class="section-head"><div class="eyebrow">03 &middot; SEO &amp; On-Page Signals</div><h2>On-page SEO score: '+(d.seo||0)+'/100</h2>'+
+      '<p>Only what is directly measurable on the live page — no keyword-ranking or competitor data is estimated.</p></div>'+
+      '<div class="grid cols-3">'+seoCards+'</div>'+
+      '<div class="callout" style="margin-top:18px">Search-ranking position and competitor benchmarking require manual research (Search Console / SEO tool access) and are not included in this automated pass.</div></section>';
+
+    var recCards=(d.opps||[]).slice(0,4).map(function(o,i){return '<div class="card"><div class="flex-row"><span class="num-badge">'+(i+1)+'</span><div><h3>'+o.t+'</h3><p>'+o.why+'</p></div></div></div>';}).join('');
+    var section4=recCards?('<section><div class="section-head"><div class="eyebrow">Recommendations Snapshot</div><h2>Where the leverage is</h2></div><div class="grid cols-2">'+recCards+'</div></section>'):'';
+
+    var footer='<footer class="site"><div class="fwrap"><div style="font-weight:800;color:#fff;font-size:15px">VV <span class="accent">TechSol</span></div><div>Prepared for '+esc(name)+' &middot; Web &amp; App Development, SEO &amp; Marketing — vvtechsol.com</div></div></footer>';
+
+    return hero+summary+section1+section2+section3+section4+footer;
   }
   function genAudit(){
     if(auditDone)return; auditDone=true;
@@ -594,80 +661,77 @@
     var gen=document.getElementById('auditGen'), body=document.getElementById('auditBody');
     setTimeout(function(){
       if(gen)gen.style.display='none';
-      if(body){ body.innerHTML=auditHTML(d,nm); body.style.display='block'; }
+      if(body){
+        body.innerHTML='<div class="auditdoc">'+auditContentHTML(d,nm)+'</div>'+
+          '<div class="cta"><h3>Audit complete.</h3><p>Download this audit to send to '+esc(nm)+', or continue to draft the proposal.</p><div class="row">'+
+          '<button class="btn btn-grad" type="button" onclick="downloadAudit()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="#0A0A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download audit (Word)</button>'+
+          '<button class="btn btn-ghost" type="button" onclick="exportAuditPDF()">Export audit (PDF)</button>'+
+          '<button class="btn btn-ghost" type="button" onclick="showTab(\'proposal\',\'Proposal\')">Continue to proposal →</button>'+
+          '</div></div>';
+        body.style.display='block';
+      }
     },1200);
   }
   function downloadAudit(){
     var d=A.data||{}; var nm=(d.domain||'company').split('.')[0]; nm=nm.charAt(0).toUpperCase()+nm.slice(1);
     var strHtml=(d.strengths||[]).map(function(s){return '<li><b>'+cAmp(s[0])+'</b> — '+cAmp(s[1])+'</li>';}).join('')||'<li>Site is live and reachable.</li>';
-    var gapHtml=(d.gaps||[]).map(function(g){return '<p style="margin:6px 0"><b style="color:#b23a1e">'+cAmp(g[0])+'</b>'+(g[1]?' &mdash; '+cAmp(g[1]):'')+'<br><span style="color:#555">'+cAmp(g[2]||'')+'</span></p>';}).join('')||'<p>No major issues detected.</p>';
+    var gapHtml=(d.gaps||[]).map(function(g,i){return '<p style="margin:6px 0"><b style="color:#b23a1e">['+sevLabel(i)+'] '+cAmp(g[0])+'</b>'+(g[1]?' &mdash; '+cAmp(g[1]):'')+'<br><span style="color:#555">'+cAmp(g[2]||'')+'</span></p>';}).join('')||'<p>No major issues detected.</p>';
     var socHtml=['facebook','instagram','linkedin','youtube','twitter'].map(function(k){return '<li>'+k.charAt(0).toUpperCase()+k.slice(1)+': '+(d.socials[k]?'found':'not found')+'</li>';}).join('');
+    var seoHtml=[['Page title',d.title],['Meta description',d.desc],['H1 heading',d.h1],['Canonical tag',d.canonical],['Social share image',d.ogImg]].map(function(f){return '<li>'+f[0]+': '+(f[1]?'Present':'Missing')+'</li>';}).join('')+'<li>Content: '+d.words+' words</li>';
     var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Audit - '+nm+'</title></head><body style="font-family:Calibri,Arial,sans-serif;color:#1a1a1a;font-size:11pt;">'+
     '<h1 style="color:#6d28d9;margin-bottom:0;">Digital &amp; Growth Audit for '+nm+'</h1>'+
     '<p style="color:#666;margin-top:4px;">Prepared by <b>VV Tech Sol</b> &middot; '+dateStr()+' &middot; '+(d.domain||'')+' &middot; Score '+(d.overall||0)+'/100</p>'+
+    '<h2 style="color:#4c1d95;">01 &middot; Website: UX &amp; on-page issues</h2>'+gapHtml+
     '<h2 style="color:#4c1d95;">What&#39;s working well</h2><ul>'+strHtml+'</ul>'+
-    '<h2 style="color:#4c1d95;">Gaps &amp; risks found</h2>'+gapHtml+
-    '<h2 style="color:#4c1d95;">Digital presence &amp; social</h2><ul>'+socHtml+'</ul>'+
+    '<h2 style="color:#4c1d95;">02 &middot; Digital presence &amp; social media</h2><ul>'+socHtml+'</ul>'+
+    '<h2 style="color:#4c1d95;">03 &middot; SEO &amp; on-page signals</h2><ul>'+seoHtml+'</ul>'+
     '<p style="color:#777;font-size:9pt;">Built from a live, automated analysis — no manual research added.</p><hr><p><b>VV Tech Sol</b> &middot; hello@vvtechsol.com &middot; vvtechsol.com</p></body></html>';
     var blob=new Blob(['﻿',html],{type:'application/msword'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nm+'-Audit.doc'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
     toast('✓ Audit downloaded (Word)');
   }
+  // Same scoped CSS as the in-app .auditdoc styles (see <style> above) — duplicated here as a string
+  // because the export opens in a brand-new, standalone document/window.
+  function auditCSSText(){
+    return ".auditdoc{--a-purple:#7C3AED;--a-magenta:#C026D3;--a-grad:linear-gradient(120deg,var(--a-purple) 0%,var(--a-magenta) 100%);--a-dark1:#3D1476;--a-dark2:#1B0B36;--a-dark3:#0B0810;--a-ink:#17131F;--a-muted:#65607a;--a-line:#ECE8F5;--a-soft:#F7F5FC;"+
+      "font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--a-ink);background:#fff;line-height:1.6;border-radius:16px;overflow:hidden;border:1px solid var(--a-line);}"+
+      ".auditdoc *{box-sizing:border-box;}.auditdoc a{color:var(--a-purple);text-decoration:none;}"+
+      ".auditdoc .hero{background:linear-gradient(180deg,var(--a-dark1) 0%, var(--a-dark2) 46%, var(--a-dark3) 100%);color:#fff;padding:44px 40px 52px;}"+
+      ".auditdoc .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;color:#d9b8f5;margin-bottom:16px;}"+
+      ".auditdoc .eyebrow::before{content:'';width:18px;height:2px;background:var(--a-grad);display:inline-block;border-radius:2px;}"+
+      ".auditdoc h1.title{font-size:27px;line-height:1.2;margin:0 0 14px;font-weight:800;color:#fff;}"+
+      ".auditdoc .accent{background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}"+
+      ".auditdoc .lead{font-size:14.5px;color:#cfc7e6;max-width:620px;margin:0 0 22px;}"+
+      ".auditdoc .meta-row{display:flex;flex-wrap:wrap;gap:10px;}"+
+      ".auditdoc .meta-chip{font-size:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:7px 12px;border-radius:10px;color:#e6e1f5;}"+
+      ".auditdoc section{padding:36px 40px;}.auditdoc section.alt{background:var(--a-soft);}.auditdoc section+section{border-top:1px solid var(--a-line);}"+
+      ".auditdoc .section-head{margin-bottom:22px;max-width:640px;}.auditdoc .section-head .eyebrow{color:var(--a-purple);}.auditdoc .section-head .eyebrow::before{background:var(--a-grad);}"+
+      ".auditdoc h2{font-size:20px;margin:0 0 8px;font-weight:800;color:var(--a-ink);}.auditdoc .section-head p{color:var(--a-muted);font-size:13.5px;margin:0;}"+
+      ".auditdoc .grid{display:grid;gap:14px;}.auditdoc .grid.cols-2{grid-template-columns:repeat(2,1fr);}.auditdoc .grid.cols-3{grid-template-columns:repeat(3,1fr);}.auditdoc .grid.cols-4{grid-template-columns:repeat(4,1fr);}"+
+      ".auditdoc .card{background:#fff;border:1px solid var(--a-line);border-radius:13px;padding:18px;}"+
+      ".auditdoc .card h3{margin:0 0 6px;font-size:14.5px;color:var(--a-ink);}.auditdoc .card p{margin:0;color:var(--a-muted);font-size:12.5px;line-height:1.55;}"+
+      ".auditdoc .badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:3px 9px;border-radius:99px;margin-bottom:9px;}"+
+      ".auditdoc .badge.critical{background:#FDE8E8;color:#B42318;}.auditdoc .badge.high{background:#FDF1E7;color:#B54708;}.auditdoc .badge.medium{background:#EFF4FF;color:#3538CD;}.auditdoc .badge.good{background:#E7F6EC;color:#0B7A3B;}.auditdoc .badge.rec{background:#F3E8FF;color:#7C3AED;}"+
+      ".auditdoc .stat{text-align:center;}.auditdoc .stat .num{font-size:24px;font-weight:800;background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}.auditdoc .stat .label{font-size:11.5px;color:var(--a-muted);margin-top:4px;}"+
+      ".auditdoc .callout{border-left:4px solid var(--a-purple);background:var(--a-soft);padding:14px 18px;border-radius:8px;color:var(--a-ink);font-size:13px;}"+
+      ".auditdoc .num-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--a-grad);color:#fff;font-size:11px;font-weight:800;margin-right:10px;flex:none;}"+
+      ".auditdoc .flex-row{display:flex;align-items:flex-start;}"+
+      ".auditdoc footer.site{background:var(--a-dark3);color:#a99fc2;padding:26px 40px;font-size:12.5px;}.auditdoc footer.site .fwrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center;}.auditdoc footer.site b{color:#fff;}"+
+      "@media print{.auditdoc{border-radius:0;border:0;} .auditdoc section{page-break-inside:avoid;} .auditdoc .card{page-break-inside:avoid;}}";
+  }
   function auditDocHTML(d){
-    d=d||{}; var nm=propName(d); var score=d.overall||0; var dom=d.domain||'';
-    var chips=[['Overall',score],['SEO',d.seo||0],['UI / UX',d.ux||0],['Social',d.socScore||0]];
-    var strengths=(d.strengths||[]).map(function(s){return '<li><b>'+esc(s[0])+'</b> — '+esc(s[1])+'</li>';}).join('')||'<li>A live website is in place to build on.</li>';
-    var gaps=(d.gaps||[]).map(function(g){return '<div class="gap"><div class="gtt">'+esc(g[0])+(g[1]?' <span>'+esc(g[1])+'</span>':'')+'</div><p>'+esc(g[2]||'')+'</p></div>';}).join('')||'<p>No major blocking issues found.</p>';
-    var socRows=['facebook','instagram','linkedin','youtube','twitter'].map(function(k){var lbl=k.charAt(0).toUpperCase()+k.slice(1);return '<div class="fact"><b>'+lbl+':</b> '+(d.socials[k]?'found':'not found')+'</div>';}).join('');
-    var seoRows=[['Page title',d.title?'Present':'Missing'],['Meta description',d.desc?'Present':'Missing'],['H1 heading',d.h1?'Present':'Missing'],['Canonical tag',d.canonical?'Present':'Missing'],['Social share image',d.ogImg?'Present':'Missing'],['Content length',d.words+' words']]
-      .map(function(f){return '<div class="fact"><b>'+f[0]+':</b> '+esc(String(f[1]))+'</div>';}).join('');
-    var ring='conic-gradient('+(score>=70?'#16a34a':score>=45?'#d97706':'#dc2626')+' '+(score/100)+'turn, #e9e4f5 0)';
+    d=d||{}; var nm=propName(d);
     return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+nm+' — Digital &amp; Growth Audit · VV Tech Sol</title><style>'+
-      '*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}'+
-      'body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#211a2e;background:#f4f1f8;line-height:1.55;font-size:14px}'+
-      '.wrap{max-width:900px;margin:0 auto;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.08)}'+
-      '.cover{background:linear-gradient(135deg,#4c1d95,#86286f 60%,#b4318f);color:#fff;padding:44px 48px}'+
-      '.brand{font-size:12px;letter-spacing:3px;font-weight:700;opacity:.85;text-transform:uppercase}'+
-      '.cover h1{font-size:34px;margin:18px 0 4px;line-height:1.1}.cover .sub{opacity:.9;font-size:14px}'+
-      '.cover .meta{margin-top:22px;display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px;opacity:.92}'+
-      '.sec{padding:30px 48px;border-top:1px solid #efe9f5}'+
-      '.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#86286f;font-weight:800;margin:0 0 10px}'+
-      'h2{font-size:20px;margin:0 0 6px;color:#2c1b45}'+
-      '.snap{display:flex;gap:22px;align-items:center;flex-wrap:wrap}'+
-      '.ring{width:104px;height:104px;border-radius:50%;background:'+ring+';display:flex;align-items:center;justify-content:center;flex:0 0 auto}'+
-      '.ring b{width:74px;height:74px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#2c1b45}'+
-      '.chips{display:flex;gap:10px;flex-wrap:wrap;flex:1}'+
-      '.chip{background:#f6f2fb;border:1px solid #ece4f6;border-radius:12px;padding:10px 14px;min-width:96px}'+
-      '.chip .n{font-size:11px;color:#7a6b90;text-transform:uppercase;letter-spacing:.5px}.chip .v{font-size:22px;font-weight:800;color:#4c1d95}'+
-      '.facts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}'+
-      '.fact{background:#fbfaff;border:1px solid #eee7f6;border-radius:10px;padding:8px 12px;font-size:12.5px}.fact b{color:#4c1d95}'+
-      '.verdict{margin-top:16px;background:#faf6ff;border-left:4px solid #86286f;padding:12px 16px;border-radius:0 8px 8px 0;font-style:italic;color:#3a2c4f}'+
-      'ul.clean{margin:6px 0 0;padding-left:20px}ul.clean li{margin:6px 0}'+
-      '.gap{background:#fff7f4;border:1px solid #ffe0d4;border-radius:10px;padding:12px 14px;margin:10px 0}'+
-      '.gap .gtt{font-weight:800;color:#b23a1e}.gap .gtt span{font-weight:600;color:#c9724f;font-size:12px}'+
-      '.gap p{margin:5px 0 0;color:#5a4a52;font-size:13px}'+
-      '.disc{font-size:11px;color:#93849f;margin-top:8px}'+
-      '.cta{background:#2c1b45;color:#fff;padding:28px 48px;text-align:center}.cta h3{margin:0 0 6px;font-size:19px}.cta p{opacity:.85;margin:0 0 4px;font-size:13.5px}'+
-      '.cta .contact{margin-top:12px;font-size:13px;opacity:.95}.cta a{color:#e9b8dd;text-decoration:none}'+
-      '.pbar{position:sticky;top:0;z-index:10;background:#2c1b45;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}'+
-      '.pbar span{font-size:13px;opacity:.85}.pbar button{background:#fff;color:#2c1b45;border:0;border-radius:8px;padding:9px 16px;font-weight:800;cursor:pointer;font-size:13px}'+
-      '@media print{body{background:#fff}.wrap{box-shadow:none;max-width:none}.sec{page-break-inside:avoid}.gap{page-break-inside:avoid}.noprint{display:none!important}}'+
+      'body{margin:0;background:#f4f1f8;}'+
+      '.pbar{position:sticky;top:0;z-index:10;background:#2c1b45;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}'+
+      '.pbar span{font-size:13px;opacity:.85;} .pbar button{background:#fff;color:#2c1b45;border:0;border-radius:8px;padding:9px 16px;font-weight:800;cursor:pointer;font-size:13px;}'+
+      '.wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px;}'+
+      auditCSSText()+
+      '@media print{.pbar{display:none!important;} body{background:#fff;} .wrap{padding:0;max-width:none;}}'+
       '</style></head><body>'+
       '<div class="pbar noprint"><span>Audit for '+esc(nm)+' — save it as a PDF to send your client</span><button type="button" onclick="window.print()">⬇ Download PDF</button></div>'+
-      '<div class="wrap">'+
-      '<div class="cover"><div class="brand">VV Tech Sol · Digital &amp; Growth Audit</div>'+
-        '<h1>'+esc(nm)+'</h1><div class="sub">A live, automated audit of '+esc(dom)+' across SEO, UX, tech stack, contact &amp; social signals.</div>'+
-        '<div class="meta"><span>Prepared for <b>'+esc(nm)+'</b></span><span>'+dateStr()+'</span><span>'+esc(dom)+'</span><span>Digital-maturity score: <b>'+score+'/100</b></span></div></div>'+
-      '<div class="sec"><p class="eyebrow">Executive summary</p><h2>Where '+esc(nm)+' stands today</h2>'+
-        '<div class="snap"><div class="ring"><b>'+score+'</b></div><div class="chips">'+chips.map(function(x){return '<div class="chip"><div class="n">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>';}).join('')+'</div></div>'+
-        '<div class="verdict">'+verdictText(score)+'</div></div>'+
-      '<div class="sec"><p class="eyebrow">What is already working</p><h2>Strengths found</h2><ul class="clean">'+strengths+'</ul></div>'+
-      '<div class="sec"><p class="eyebrow">The problem</p><h2>Gaps &amp; risks found</h2>'+gaps+'</div>'+
-      '<div class="sec"><p class="eyebrow">Digital presence</p><h2>Social &amp; on-page SEO</h2><div class="facts">'+socRows+seoRows+'</div>'+
-        '<p class="disc">Built from a live, automated analysis of the page — no manual research (reviews, follower counts, competitor data) was added.</p></div>'+
-      '<div class="cta"><h3>Ready for the next step?</h3><p>See the full VV Tech Sol proposal for '+esc(nm)+' — scope, timeline and indicative pricing.</p>'+
-        '<div class="contact">VV Tech Sol · <a href="mailto:hello@vvtechsol.com">hello@vvtechsol.com</a> · vvtechsol.com</div></div>'+
-      '</div></body></html>';
+      '<div class="wrap"><div class="auditdoc">'+auditContentHTML(d,nm)+'</div></div>'+
+      '</body></html>';
   }
   function exportAuditPDF(){
     var d=A.data;
